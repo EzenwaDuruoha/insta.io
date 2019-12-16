@@ -1,0 +1,14 @@
+{
+  "name": "@middleware/uselogger",
+  "version": "1.0.0",
+  "description": "HTTP request logger for Insta.Clone",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ezenwa Duruoha",
+  "license": "Proprietary",
+  "files": [
+    "lib"
+  ]
+}

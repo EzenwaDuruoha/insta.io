@@ -1,0 +1,51 @@
+{
+    "env": {
+        "commonjs": true,
+        "es6": true,
+        "node": true,
+        "mocha": true
+    },
+    "extends": [
+        "standard",
+        "plugin:node/recommended",
+        "eslint:recommended"
+      ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+        "ecmaVersion": 2018
+    },
+    "plugins": [
+        "node"
+      ],
+      "rules": {
+        "key-spacing": "off",
+        "no-process-exit":"off",
+        "max-len": [
+          2,
+          120,
+          2
+        ],
+        "object-curly-spacing": [
+          2,
+          "never"
+        ],
+        "comma-dangle": "off",
+        "space-in-parens": [
+          2,
+          "never"
+        ],
+        "node/no-unsupported-features/es-syntax": [
+          "error",
+          {
+            "version": ">=11.0.0",
+            "ignores": []
+          }
+        ],
+        "standard/no-callback-literal": "off"
+      }
+}
+
+  

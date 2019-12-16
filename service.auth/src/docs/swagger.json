@@ -1,0 +1,13 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Agg.io Auth",
+      "description": "Authentication Serivce Documentation",
+      "version": "1.0"
+    },
+    "produces": ["application/json"],
+    "host": "192.168.99.100:3000",
+    "basePath": "/api/v1/",
+    "paths": {
+    }
+ }

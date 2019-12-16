@@ -1,0 +1,39 @@
+{
+   "name": "insta_media",
+   "version": "1.0.0",
+   "description": "Media Service For Insta.Clone",
+   "main": "index.js",
+   "scripts": {
+      "start": "node ./index.js",
+      "test": "NODE_ENV=development mocha tests --recursive --exit",
+      "test:dev": "NODE_ENV=development mocha tests --recursive --reporter min -w",
+      "cover": "NODE_ENV=development nyc mocha ./tests -name '*.spec.js' --recursive -R spec --exit",
+      "dev": "./node_modules/.bin/nodemon -L ./index.js"
+   },
+   "keywords": [
+      "Media"
+   ],
+   "license": "Proprietary",
+   "engines": {
+      "node": ">= 11.0.0"
+   },
+   "author": "Ezenwa Duruoha",
+   "dependencies": {
+      "@middleware/use-error-handler": "file:../common/@middleware/useErrorHandler",
+      "@middleware/use-validation": "file:../common/@middleware/useValidation",
+      "@middleware/usecors": "file:../common/@middleware/usecors",
+      "@middleware/uselogger": "file:../common/@middleware/useLogger",
+      "@services/rabbitmq": "file:../common/@services/rabbitmq",
+      "@services/redis": "file:../common/@services/redis",
+      "@utils/logger": "file:../common/@utils/logger"
+   },
+   "devDependencies": {
+      "chai": "^4.2.0",
+      "mocha": "^6.2.2",
+      "nodemon": "^1.19.4",
+      "nyc": "^14.1.1",
+      "proxyquire": "^2.1.3",
+      "sinon": "^7.5.0",
+      "sinon-chai": "^3.3.0"
+   }
+}

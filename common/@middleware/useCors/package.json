@@ -1,0 +1,17 @@
+{
+  "name": "@middleware/usecors",
+  "version": "1.0.0",
+  "description": "Cors Middelware for Insta.Clone Services",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ezenwa Duruoha",
+  "license": "Proprietary",
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "cors": "^2.8.5"
+  }
+}

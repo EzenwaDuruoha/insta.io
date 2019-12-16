@@ -1,0 +1,81 @@
+version: '3.6'
+
+services:
+  common:
+    image: common
+    build:
+      context: ./common
+      dockerfile: ./docker/Dockerfile
+
+  auth:
+    build:
+      context: ./service.auth
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - "3000:80"
+    volumes:
+      - ./service.auth:/app
+      - ./common:/common
+      - auth-mod:/app/node_modules
+    env_file:
+      - ./env/auth.env
+    command: sh -c "sleep 15 && npm run dev"
+    depends_on:
+      - redis
+      - db
+      - rabbitmq
+      - common
+
+  redis:
+    restart: always
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+
+  db:
+    image: mdillon/postgis
+    restart: always
+    environment:
+      POSTGRES_USER: popup
+      POSTGRES_PASSWORD: popup
+      POSTGRES_DB: engage
+    volumes:
+      - db_data:/var/lib/postgresql/data/
+    ports:
+      -  "5432:5432"
+
+  rabbitmq:
+    image: rabbitmq:3.7.17-management-alpine
+    restart: always
+    ports:
+      - "15672:15672"
+    #   - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: agg
+      RABBITMQ_DEFAULT_PASS: Test123
+
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+  #   environment:
+  #     - "discovery.type=single-node"
+  #     - cluster.name=docker-cluster
+  #     - bootstrap.memory_lock=true
+  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #   ulimits:
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
+  #   ports:
+  #     - "9200:9200"
+  # kibana:
+  #   image: docker.elastic.co/kibana/kibana:7.4.0
+  #   depends_on:
+  #     - elasticsearch
+  #   ports:
+  #     - "5601:5601"
+
+
+volumes:
+  auth-mod:
+  core-mod:
+  db_data:
