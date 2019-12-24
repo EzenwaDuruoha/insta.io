@@ -26,6 +26,7 @@
       "@services/rabbitmq": "file:../common/@services/rabbitmq",
       "@services/redis": "file:../common/@services/redis",
       "@utils/logger": "file:../common/@utils/logger",
+      "aws-sdk": "^2.596.0",
       "express": "^4.17.1",
       "express-validator": "^6.3.0",
       "mongoose": "^5.8.3",

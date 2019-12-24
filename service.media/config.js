@@ -18,7 +18,10 @@ const {
   RABBITMQ_PROTOCOL = 'amqp',
   RABBITMQ_PORT = 5672,
   RABBITMQ_PREFETCH_COUNT,
-  SECRET_KEY = 'hey'
+  SECRET_KEY = 'hey',
+  AWS_ACCESS_KEY = '',
+  AWS_SECRET_KEY = '',
+  AWS_REGION = 'us-east-1'
 } = process.env
 
 const isCli = process.argv.includes('from=cli')
@@ -49,6 +52,13 @@ module.exports = {
     maxRetries: 5,
     requestTimeout: 60000,
     // sniffOnStart: true
+  },
+  aws: {
+    region: AWS_REGION,
+    credentials: {
+      accessKeyId: AWS_ACCESS_KEY,
+      secretAccessKey: AWS_SECRET_KEY
+    }
   },
   port: PORT,
   redis: redisConf,
