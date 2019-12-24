@@ -25,7 +25,12 @@
       "@middleware/uselogger": "file:../common/@middleware/useLogger",
       "@services/rabbitmq": "file:../common/@services/rabbitmq",
       "@services/redis": "file:../common/@services/redis",
-      "@utils/logger": "file:../common/@utils/logger"
+      "@utils/logger": "file:../common/@utils/logger",
+      "express": "^4.17.1",
+      "express-validator": "^6.3.0",
+      "mongoose": "^5.8.3",
+      "uuid": "^3.3.3",
+      "uuid-validate": "0.0.3"
    },
    "devDependencies": {
       "chai": "^4.2.0",

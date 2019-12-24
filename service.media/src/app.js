@@ -42,7 +42,7 @@ app.use(function (error, req, res, next) { //eslint-disable-line
     status: 'error',
     message: 'An Internal Error Occurred'
   }
-  if (config.env === 'development' && (error instanceof Error)) {
+  if (config.isDev() && (error instanceof Error)) {
     payload.data = `Operation Error: ${error.message}`
     payload.stack = error.stack.split('\n')
   }

@@ -44,5 +44,3 @@ module.exports.getLogger = (meta = {}) => {
   if (logger) return logger
   return createLogger(meta)
 }
-
-

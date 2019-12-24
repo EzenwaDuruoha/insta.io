@@ -55,10 +55,13 @@ logger.info('Media.Service Initialization..', {...config, tag: 'app-index'})
 const {app, extend} = require('./src/app')
 const RedisService = require('@services/redis')
 const MQService = require('@services/rabbitmq')
+const DatabaseService = require('./src/database')
 
 app.set('port', config.port)
 
 const server = http.createServer(app)
+
+const databaseService = new DatabaseService()
 const redisService = new RedisService()
 const mqService = new MQService(config.rabbitmq, logger, {tag: 'MQ_SERVICE'})
 
@@ -75,8 +78,9 @@ mqService.on('message', (data) => {
 })
 
 Promise.all([
-  redisService.init(config.redis, config.isRedisCluster),
-  mqService.init()
+  databaseService.init(),
+  // redisService.init(config.redis, config.isRedisCluster),
+  // mqService.init()
 ])
   .then((success) => {
     logger.info('Required Services Initialized', {tag: 'app-index', stats: success})
