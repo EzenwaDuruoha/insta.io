@@ -29,6 +29,7 @@
       "aws-sdk": "^2.596.0",
       "express": "^4.17.1",
       "express-validator": "^6.3.0",
+      "moment": "^2.24.0",
       "mongoose": "^5.8.3",
       "uuid": "^3.3.3",
       "uuid-validate": "0.0.3"

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const uuidv4 = require('uuid/v4')
 const uuidValidator = require('uuid-validate')
+const {ALLOWED_MEDIA_CONTENT_TYPES} = require('../../constants')
 
 const Schema = mongoose.Schema
 const PostSchema = new Schema({
@@ -22,7 +23,7 @@ const PostSchema = new Schema({
   }],
   contentType: {
     type: String,
-    enum: ['Photo', 'Video']
+    enum: ALLOWED_MEDIA_CONTENT_TYPES
   },
   description: {
     type: String,
@@ -39,6 +40,7 @@ const PostSchema = new Schema({
     }
   },
   tags: [{type: String, ref: 'Tag'}],
+  meta: {type: String, ref: 'PostMeta'},
   title: {
     type: String,
     required: false,

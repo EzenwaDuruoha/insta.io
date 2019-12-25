@@ -19,9 +19,9 @@ const {
   RABBITMQ_PORT = 5672,
   RABBITMQ_PREFETCH_COUNT,
   SECRET_KEY = 'hey',
-  AWS_ACCESS_KEY = '',
-  AWS_SECRET_KEY = '',
-  AWS_REGION = 'us-east-1'
+  AWS_ACCESS_KEY = 'AKIAI5IFO43UX2OMDTNQ',
+  AWS_SECRET_KEY = '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',
+  AWS_REGION = 'eu-west-1'
 } = process.env
 
 const isCli = process.argv.includes('from=cli')
@@ -78,5 +78,7 @@ module.exports = {
       durable: true
     }
   },
-  secret: SECRET_KEY
+  secret: SECRET_KEY,
+  postContentBucket: 'cdn.insta.clone',
+  cdnHost: 'https://s3-eu-west-1.amazonaws.com'
 }
