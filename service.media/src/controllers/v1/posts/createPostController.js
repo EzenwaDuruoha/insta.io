@@ -13,9 +13,8 @@ async function createController (req, res) {
   const postKey = `${userId}/posts/${uuid()}${extension}`
   data.contentURL = [`${cdnHost}/${postContentBucket}/${postKey}`]
 
-  const postRepo = new PostRepository()
   const s3Service = new S3Service()
-  const post = await postRepo.create(data)
+  const post = await PostRepository.create(data)
   const {data: signedURL} = await s3Service.generateUploadURL(postContentBucket, postKey, {ContentType: data.contentType, ACL:'public-read'})
   return jsonResponse(res, {
     id: post.id,

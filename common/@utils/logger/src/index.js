@@ -26,7 +26,7 @@ const format = winston.format.combine(
   winston.format.json({replacer: replaceErrors, space: isDev ? 2 : 1})
 )
 
-let logger = null
+const logger = null
 
 function createLogger (meta = {}) {
   return winston.createLogger({

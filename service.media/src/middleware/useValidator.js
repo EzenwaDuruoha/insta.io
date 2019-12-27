@@ -15,8 +15,12 @@ const customChecker = validationResult.withDefaults({
 module.exports = function (req, res, next) {
   const errors = customChecker(req)
   const logger = res.locals.logger
+  const ip = req.ip ||
+  req._remoteAddress ||
+  (req.connection && req.connection.remoteAddress) ||
+  undefined
   if (!errors.isEmpty()) {
-    logger.info('Validation failed', {url: req.url, body: req.body, errors: errors.array()})
+    logger.info('Validation failed', {ip, url: req.url, body: req.body, errors: errors.array()})
     return res.status(400).json({
       status: 'error',
       data: errors.array()

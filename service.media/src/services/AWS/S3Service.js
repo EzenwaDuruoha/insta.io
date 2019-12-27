@@ -20,6 +20,7 @@ class S3Service {
     }
     this.client = new AWS.S3(defaults)
   }
+
   /**
    *
    * @param {Function} fn

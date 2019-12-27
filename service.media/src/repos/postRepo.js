@@ -3,7 +3,7 @@ const {Posts, PostMeta} = require('../database/models')
 const TagRepository = require('./tagRepo')
 
 class PostRepository {
-  async create (data = {}) {
+  static async create (data = {}) {
     const _id = uuidv4()
     let tags = []
     let meta = {}
@@ -15,53 +15,56 @@ class PostRepository {
       meta = data.meta
       delete data.meta
     }
-    const post =  await Posts.create({_id, ...data})
+    const post = await Posts.create({_id, ...data})
     const tagModels = await Promise.all(tags.map((tag) => TagRepository.updateOrCreate({name: tag}, {name: tag})))
     const metaModel = await PostMeta.create({relatedTo: post.id, meta})
     post.tags = tagModels
     post.meta = metaModel
-    return await post.save()
+    return post.save()
   }
 
-  async createMany (data = []) {
+  static async createMany (data = []) {
     return Posts.insertMany(data, {ordered: true})
   }
 
-  async get (args = {}) {
-    return Posts.findOne(args).populate({
-      path: 'tags',
-      select: 'name',
-    })
-    .populate({
-      path: 'meta',
-      select: 'meta',
-    })
-      .exec()
+  static async get (query = {}, fetchRelated = true, ...args) {
+    let q = Posts.findOne(query, ...args)
+    if (fetchRelated) {
+      q = q.populate({
+        path: 'tags',
+        select: 'name',
+      })
+        .populate({
+          path: 'meta',
+          select: 'meta',
+        })
+    }
+    return q.exec()
   }
 
-  async find (query = {}, chain = false) {
+  static async find (query = {}, chain = false) {
     const q = Posts.find(query).populate({
       path: 'tags',
       select: 'name',
     })
-    .populate({
-      path: 'meta',
-      select: 'meta',
-    })
+      .populate({
+        path: 'meta',
+        select: 'meta',
+      })
     if (!chain) {
       return q.exec()
     }
     return q
   }
 
-  async update (id, data = {}) {
+  static async update (id, data = {}) {
     return Posts.findOneAndUpdate({_id: id}, data, {
       new: true,
       runValidators: true
     })
   }
 
-  async delete (id) {
+  static async delete (id) {
     return Posts.findOneAndUpdate({_id: id}, {deleted: true}, {
       new: true,
       runValidators: true

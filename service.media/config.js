@@ -10,7 +10,7 @@ const {
   DATABASE_PORT = 27017,
   ELASTIC_SEARCH_URL = 'http://localhost:9200',
   NODE_ENV = 'development',
-  PORT = 80,
+  PORT = 8090,
   REDIS_ENDPOINT,
   RABBITMQ_HOST = '127.0.0.1',
   RABBITMQ_USER = 'root',

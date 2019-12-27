@@ -8,8 +8,7 @@ async function getPostController (req, res) {
   if (!uuidValidator(id, 4)) {
     return jsonResponse(res, 'Invalid Id Parameter', 400)
   }
-  const postRepo = new PostRepository()
-  const post = await postRepo.get({_id: id})
+  const post = await PostRepository.get({_id: id})
   if (!post) {
     return jsonResponse(res, 'Post Not Found', 400)
   }
