@@ -40,6 +40,7 @@ class DatabaseService {
   async close () {
     try {
       await mongoose.disconnect()
+      logger.info('Media.Service Database close', {tag: 'database_service'})
     } catch (error) {
       logger.error(error, {tag: 'database_service'})
     }

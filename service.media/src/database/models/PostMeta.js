@@ -21,6 +21,44 @@ const PostMetaSchema = new Schema({
   }
 })
 
+PostMetaSchema.statics.lookup = function (opt, extendPipeLine = []) {
+  const lookup = []
+  const getLookup = (path) => {
+    const relatedSchema = this.schema.path(path)
+    const ref = relatedSchema.caster ? relatedSchema.caster.options.ref : relatedSchema.options.ref
+    const rel = mongoose.model(ref)
+    return {
+      $lookup: {
+        from: rel.collection.name,
+        as: path,
+        localField: path,
+        foreignField: '_id'
+      }
+    }
+  }
+
+  if (Array.isArray(opt.path)) {
+    opt.path.forEach((path) => {
+      lookup.push(getLookup(path))
+    })
+  } else {
+    lookup.push(getLookup(opt.path))
+  }
+
+  const pipeline = [
+    ...lookup,
+    {$match: opt.query},
+    ...extendPipeLine
+  ]
+  console.log(pipeline)
+  return this.aggregate(pipeline).exec()
+  // .then(r => {
+  //   return r.map(m => {
+  //     return this({ ...m, [opt.path]: m[opt.path].map(r => rel(r)) })
+  //   })
+  // })
+}
+
 PostMetaSchema.set('toJSON', {
   transform: function (doc, ret, opt) { // eslint-disable-line
     delete ret.__v

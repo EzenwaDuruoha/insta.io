@@ -91,6 +91,7 @@ Promise.all([
         return
       }
       // closers.push(mqService.close)
+      closers.push(databaseService.close)
       logger.info('Server Started Successfully', {port: config.port, tag: 'app-index'})
     })
   })

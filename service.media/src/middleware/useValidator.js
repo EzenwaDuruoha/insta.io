@@ -20,7 +20,7 @@ module.exports = function (req, res, next) {
   (req.connection && req.connection.remoteAddress) ||
   undefined
   if (!errors.isEmpty()) {
-    logger.info('Validation failed', {ip, url: req.url, body: req.body, errors: errors.array()})
+    logger.info('Validation failed', {ip, url: req.originalUrl, body: req.body, errors: errors.array()})
     return res.status(400).json({
       status: 'error',
       data: errors.array()

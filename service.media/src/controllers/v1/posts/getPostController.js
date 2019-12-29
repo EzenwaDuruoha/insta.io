@@ -10,7 +10,7 @@ async function getPostController (req, res) {
   }
   const post = await PostRepository.get({_id: id})
   if (!post) {
-    return jsonResponse(res, 'Post Not Found', 400)
+    return jsonResponse(res, 'Post Not Found', 404)
   }
   return jsonResponse(res, post.toJSON(), 200)
 }

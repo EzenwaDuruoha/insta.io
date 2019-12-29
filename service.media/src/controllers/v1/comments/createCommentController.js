@@ -7,7 +7,7 @@ async function createCommentController (req, res) {
   const {data} = res.locals
   const {relatedTo, actor} = data
   const callbacks = {
-    Post: PostRepository.get.bind(null, {_id: relatedTo}, false),
+    Post: PostRepository.get.bind(PostRepository, {_id: relatedTo}, false),
     Comment: CommmentRepository.get.bind(CommmentRepository, {_id: relatedTo})
   }
   const cb = callbacks[actor]

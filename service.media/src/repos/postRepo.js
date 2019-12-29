@@ -42,19 +42,26 @@ class PostRepository {
     return q.exec()
   }
 
-  static async find (query = {}, chain = false) {
-    const q = Posts.find(query).populate({
-      path: 'tags',
-      select: 'name',
-    })
-      .populate({
-        path: 'meta',
-        select: 'meta',
+  static find (query = {}, chain = false, fetchRelated = true, ...args) {
+    let q = Posts.find(query, ...args)
+    if (fetchRelated) {
+      q = q.populate({
+        path: 'tags',
+        select: 'name',
       })
+        .populate({
+          path: 'meta',
+          select: 'meta',
+        })
+    }
     if (!chain) {
       return q.exec()
     }
     return q
+  }
+
+  static async lookup (...args) {
+    return Posts.lookup(...args)
   }
 
   static async update (id, data = {}) {
