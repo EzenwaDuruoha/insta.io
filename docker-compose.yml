@@ -16,6 +16,7 @@ services:
     volumes:
       - ./service.auth:/app
       - ./common:/common
+      - ./secrets:/secrets
       - auth-mod:/app/node_modules
     env_file:
       - ./env/auth.env
@@ -37,6 +38,7 @@ services:
     volumes:
       - ./service.media:/app
       - ./common:/common
+      - ./secrets:/secrets
       - media-mod:/app/node_modules
     command: sh -c "sleep 15 && npm run dev"
     depends_on:

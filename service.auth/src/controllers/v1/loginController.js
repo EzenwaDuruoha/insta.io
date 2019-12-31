@@ -12,7 +12,15 @@ const UserDataLayer = require('../../utils/userDataLayer')
  * @param {response} res
  */
 async function loginController (req, res) {
-  const {dbService, redisService, mqService, jwtService, data, config: {jwt: {expiresIn}, rabbitmq: {exechangeName}}} = res.locals
+  const {
+    dbService,
+    redisService,
+    mqService,
+    jwtService,
+    data,
+    config: {jwt, jwtCerts: {privateKey}, rabbitmq: {exechangeName}}
+  } = res.locals
+  const {expiresIn} = jwt
   const {username, email, password} = data
   const userDataLayer = new UserDataLayer(dbService)
   const args = username ? {username} : {email}
@@ -27,7 +35,7 @@ async function loginController (req, res) {
   if (!user.validatePassword(password)) {
     return jsonResponse(res, 'Incorrect Password', 404)
   }
-  const token = jwtService.generateToken({id: user.id, type: 'app'})
+  const token = jwtService.generateToken(privateKey, {id: user.id}, {...jwt, audience: 'Public.Api', subject: 'Client'})
   const sessionKey = REDIS_SESSION_KEY + user.id
   const userDataKey = USER_DATA_KEY + user.id
 

@@ -8,6 +8,7 @@ const {CONTENT_TYPES_TO_EXTENSION} = require('../../../constants')
 
 async function createController (req, res) {
   const {data, user} = res.locals
+  if (!user || !user.id) return jsonResponse(res, 'Not Authenticated', 403)
   const extension = CONTENT_TYPES_TO_EXTENSION[data.contentType]
   const postKey = `${user.id}/posts/${uuid()}${extension}`
   data.userId = user.id

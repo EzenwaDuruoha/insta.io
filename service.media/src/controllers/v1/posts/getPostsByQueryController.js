@@ -6,7 +6,7 @@ async function getPostsByQueryController (req, res) {
   const {data} = res.locals
   const {id, and, or} = data
   if (and && or) {
-    return jsonResponse(res, 'Only a Single Query Operation can be Performed', 200)
+    return jsonResponse(res, 'Only a Single Query Operation can be Performed', 400)
   }
   if (id) {
     const post = await PostRepository.get({_id: id})

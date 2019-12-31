@@ -55,6 +55,7 @@ logger.info('Media.Service Initialization..', {...config, tag: 'app-index'})
 const {app, extend} = require('./src/app')
 const RedisService = require('@services/redis')
 const MQService = require('@services/rabbitmq')
+const JWTService = require('@services/jwt')
 const DatabaseService = require('./src/database')
 const InstaUserService = require('./src/services/HTTP/InstaAuthService')
 
@@ -66,13 +67,15 @@ const databaseService = new DatabaseService()
 const redisService = new RedisService()
 const mqService = new MQService(config.rabbitmq, logger, {tag: 'MQ_SERVICE'})
 const userService = new InstaUserService(config.network.authService)
+const jwtService = new JWTService()
 
 extend(function () {
   return {
     config,
     redisService,
     mqService,
-    userService
+    userService,
+    jwtService
   }
 })
 
@@ -93,8 +96,8 @@ Promise.all([
         global.exit()
         return
       }
-      closers.push(mqService.close)
-      closers.push(databaseService.close)
+      closers.push(mqService.close.bind(mqService))
+      closers.push(databaseService.close.bind(databaseService))
       logger.info('Server Started Successfully', {port: config.port, tag: 'app-index'})
     })
   })

@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-env node */
-
+const fs = require('fs')
 const {
   CLUSTER_MODE,
   DATABASE_HOST = '127.0.0.1',
@@ -23,7 +23,8 @@ const {
   AWS_ACCESS_KEY = 'root',
   AWS_SECRET_KEY = 'root',
   AWS_REGION = 'eu-west-1',
-  INSTA_AUTH_SERVICE='http://auth'
+  INSTA_AUTH_SERVICE = 'http://auth',
+  SECRETS_PATH
 } = process.env
 
 const isCli = process.argv.includes('from=cli')
@@ -44,6 +45,16 @@ let db = 'mongodb://' + ((DATABASE_USER && DATABASE_PASSWORD) ? `${DATABASE_USER
 
 if (DATABASE_URL) {
   db = DATABASE_URL
+}
+
+const jwtCerts = {
+  privateKey: '',
+  publicKey: ''
+}
+
+if (SECRETS_PATH) {
+  jwtCerts.privateKey = fs.readFileSync(`${SECRETS_PATH}/jwt/private.key`, 'utf8')
+  jwtCerts.publicKey = fs.readFileSync(`${SECRETS_PATH}/jwt/public.key`, 'utf8')
 }
 module.exports = {
   db,
@@ -68,6 +79,13 @@ module.exports = {
       secretAccessKey: AWS_SECRET_KEY
     }
   },
+  jwt: {
+    expiresIn: '9000000',
+    algorithm: 'RS256',
+    header: {typ: 'Bearer'},
+    issuer: 'Insta.io'
+  },
+  jwtCerts,
   port: PORT,
   redis: redisConf,
   rabbitmq: {

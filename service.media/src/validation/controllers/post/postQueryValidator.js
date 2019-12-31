@@ -27,7 +27,9 @@ const nestedSanitizer = (value) => {
 
 const nestedValidator = (value) => {
   if (!value) return false
-  const err = Object.keys(value).reduce((reducer, key) => {
+  const fields = Object.keys(value)
+  if (!fields.length) return false
+  const err = fields.reduce((reducer, key) => {
     if (!keys.includes(key) || !validation[key]) reducer.push(false)
     const isValid = validation[key](value[key])
     !isValid && reducer.push(false)

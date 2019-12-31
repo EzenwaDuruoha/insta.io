@@ -6,7 +6,7 @@ module.exports.jsonResponse = function (res, data = null, status = 200) {
   }
   // if the status code starts with 2 or 3, set satus variable as success
   const isOk = successPattern.test(status)
-  let content = data || (!isOk ? 'An Error has occured' : 'ok')
+  let content = data || (!isOk ? 'An Error has occured' : null)
   if (typeof data === 'boolean' && isOk) {
     content = data
   }

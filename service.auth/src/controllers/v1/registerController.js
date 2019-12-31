@@ -9,7 +9,15 @@ const UserDataLayer = require('../../utils/userDataLayer')
  * @param {response} res
  */
 async function registerController (req, res) {
-  const {dbService, redisService, mqService, jwtService, data, config: {jwt: {expiresIn}, rabbitmq: {exechangeName}}} = res.locals
+  const {
+    dbService,
+    redisService,
+    mqService,
+    jwtService,
+    data,
+    config: {jwt, jwtCerts: {privateKey}, rabbitmq: {exechangeName}}
+  } = res.locals
+  const {expiresIn} = jwt
   const {username, email, password} = data
   const userDataLayer = new UserDataLayer(dbService)
 
@@ -22,7 +30,7 @@ async function registerController (req, res) {
   const profile = await userDataLayer.createUserProfile(user)
   const settings = await userDataLayer.createUserSettings(user)
 
-  const token = jwtService.generateToken({id: user.id, type: 'app'})
+  const token = jwtService.generateToken(privateKey, {id: user.id}, {...jwt, audience: 'Public.Api', subject: 'Client'})
   const sessionKey = REDIS_SESSION_KEY + user.id
   const userDataKey = USER_DATA_KEY + user.id
   const exp = parseInt(expiresIn) / 1000

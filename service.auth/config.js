@@ -1,5 +1,5 @@
 /* eslint-env node */
-
+const fs = require('fs')
 const {
   DATABASE_NAME = 'default',
   DATABASE_HOST = '127.0.0.1',
@@ -15,7 +15,8 @@ const {
   RABBITMQ_PREFETCH_COUNT,
   PORT = 80,
   NODE_ENV = 'development',
-  SECRET_KEY = 'hey'
+  SECRET_KEY = 'hey',
+  SECRETS_PATH = ''
 } = process.env
 
 const isCli = process.argv.includes('from=cli')
@@ -33,6 +34,16 @@ if (CLUSTER_MODE === 'true' && REDIS_ENDPOINT) {
   redisConf = {host: tmp[0], port:tmp[1]}
 }
 
+const jwtCerts = {
+  privateKey: '',
+  publicKey: ''
+}
+
+if (SECRETS_PATH) {
+  jwtCerts.privateKey = fs.readFileSync(`${SECRETS_PATH}/jwt/private.key`, 'utf8')
+  jwtCerts.publicKey = fs.readFileSync(`${SECRETS_PATH}/jwt/public.key`, 'utf8')
+}
+
 module.exports = {
   db: {
     host: DATABASE_HOST,
@@ -47,10 +58,9 @@ module.exports = {
   isProd: () => NODE_ENV === 'production',
   jwt: {
     expiresIn: '9000000',
-    algorithm: 'HS256',
-    header: {typ: 'Bearer'},
     issuer: 'Insta.io'
   },
+  jwtCerts,
   port: PORT,
   redis: redisConf,
   rabbitmq: {
