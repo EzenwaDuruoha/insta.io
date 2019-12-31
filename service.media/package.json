@@ -20,9 +20,9 @@
    "author": "Ezenwa Duruoha",
    "dependencies": {
       "@middleware/use-error-handler": "file:../common/@middleware/useErrorHandler",
-      "@middleware/use-validation": "file:../common/@middleware/useValidation",
       "@middleware/usecors": "file:../common/@middleware/usecors",
       "@middleware/uselogger": "file:../common/@middleware/useLogger",
+      "@services/jwt": "file:../common/@services/jwt",
       "@services/rabbitmq": "file:../common/@services/rabbitmq",
       "@services/redis": "file:../common/@services/redis",
       "@utils/logger": "file:../common/@utils/logger",

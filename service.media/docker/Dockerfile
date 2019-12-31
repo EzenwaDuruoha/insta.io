@@ -24,18 +24,23 @@ RUN if [ "$env" = "production" ] ; then npm install --only=production ; else npm
 FROM node:12-alpine
 
 ARG user=root
+ARG app_path=/app
 ARG env
 
 RUN mkdir /common
+RUN mkdir /secrets
 COPY --from=build /tmp/common /common
 
-WORKDIR /app/
-
 ENV NODE_ENV=${env}
+ENV SECRETS_PATH=/secrets
+ENV COMMONS_PATH=/common
+ENV APP_PATH=${app_path}
 ENV PORT 80
 
-COPY . /app/
-COPY --from=build /tmp/build /app/
+WORKDIR ${APP_PATH}
+
+COPY . ${APP_PATH}
+COPY --from=build /tmp/build ${APP_PATH}
 
 USER ${user}
 
