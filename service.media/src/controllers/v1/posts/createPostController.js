@@ -7,15 +7,18 @@ const {postContentBucket, cdnHost} = require('../../../../config')
 const {CONTENT_TYPES_TO_EXTENSION} = require('../../../constants')
 
 async function createController (req, res) {
-  const {data} = res.locals
-  const userId = data.userId
+  const {data, user} = res.locals
   const extension = CONTENT_TYPES_TO_EXTENSION[data.contentType]
-  const postKey = `${userId}/posts/${uuid()}${extension}`
+  const postKey = `${user.id}/posts/${uuid()}${extension}`
+  data.userId = user.id
   data.contentURL = [`${cdnHost}/${postContentBucket}/${postKey}`]
 
   const s3Service = new S3Service()
   const post = await PostRepository.create(data)
-  const {data: signedURL} = await s3Service.generateUploadURL(postContentBucket, postKey, {ContentType: data.contentType, ACL:'public-read'})
+  const {data: signedURL} = await s3Service.generateUploadURL(postContentBucket, postKey, {
+    ContentType: data.contentType,
+    ACL:'public-read'
+  })
   return jsonResponse(res, {
     id: post.id,
     uploadUrl: signedURL

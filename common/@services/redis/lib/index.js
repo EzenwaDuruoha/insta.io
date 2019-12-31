@@ -58,15 +58,15 @@ class RedisService extends EventEmitter {
   }
 
   set (...args) {
-    return this.handle(this._client.set)(...args)
+    return this.handle((...args) => this._client.set(...args))(...args)
   }
 
   get (...args) {
-    return this.handle(this._client.get)(...args)
+    return this.handle((...args) => this._client.get(...args))(...args)
   }
 
   ttl (...args) {
-    return this.handle(this._client.ttl)(...args)
+    return this.handle((...args) => this._client.ttl(...args))(...args)
   }
 }
 

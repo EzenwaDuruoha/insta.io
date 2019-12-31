@@ -12,7 +12,7 @@ const UserDataLayer = require('../../utils/userDataLayer')
  * @param {response} res
  */
 async function loginController (req, res) {
-  const {dbService, redisService, mqService, jwtService, data, config: {jwt: {expiresIn}}} = res.locals
+  const {dbService, redisService, mqService, jwtService, data, config: {jwt: {expiresIn}, rabbitmq: {exechangeName}}} = res.locals
   const {username, email, password} = data
   const userDataLayer = new UserDataLayer(dbService)
   const args = username ? {username} : {email}
@@ -46,7 +46,7 @@ async function loginController (req, res) {
   redisService.set(userDataKey, JSON.stringify(json), 'EX', exp)
 
   setImmediate(() => {
-    mqService.publish(json, {
+    mqService.publish(json, exechangeName, {
       persist: false,
       headers: {
         notificationType: SESSION_INIT,

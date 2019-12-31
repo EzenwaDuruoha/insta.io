@@ -8,6 +8,7 @@ const {
   DATABASE_USER = 'root',
   DATABASE_NAME = 'admin',
   DATABASE_PORT = 27017,
+  DATABASE_URL = false,
   ELASTIC_SEARCH_URL = 'http://localhost:9200',
   NODE_ENV = 'development',
   PORT = 8090,
@@ -19,9 +20,10 @@ const {
   RABBITMQ_PORT = 5672,
   RABBITMQ_PREFETCH_COUNT,
   SECRET_KEY = 'hey',
-  AWS_ACCESS_KEY = 'AKIAI5IFO43UX2OMDTNQ',
-  AWS_SECRET_KEY = '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',
-  AWS_REGION = 'eu-west-1'
+  AWS_ACCESS_KEY = 'root',
+  AWS_SECRET_KEY = 'root',
+  AWS_REGION = 'eu-west-1',
+  INSTA_AUTH_SERVICE='http://auth'
 } = process.env
 
 const isCli = process.argv.includes('from=cli')
@@ -38,13 +40,19 @@ if (CLUSTER_MODE === 'true' && REDIS_ENDPOINT) {
   const tmp = REDIS_ENDPOINT.trim().split(':')
   redisConf = {host: tmp[0], port:tmp[1]}
 }
+let db = 'mongodb://' + ((DATABASE_USER && DATABASE_PASSWORD) ? `${DATABASE_USER}:${DATABASE_PASSWORD}@` : '') + `${DATABASE_HOST}:${DATABASE_PORT}` + (DATABASE_NAME ? `/${DATABASE_NAME}` : '')
 
+if (DATABASE_URL) {
+  db = DATABASE_URL
+}
 module.exports = {
-  // db: 'mongodb://' + ((DATABASE_USER && DATABASE_PASSWORD) ? `${DATABASE_USER}:${DATABASE_PASSWORD}@` : '') + `${DATABASE_HOST}:${DATABASE_PORT}` + (DATABASE_NAME ? `/${DATABASE_NAME}` : ''),
-  db: 'mongodb+srv://insta:animator@voyager-db-3mxv5.mongodb.net/test?retryWrites=true&w=majority',
+  db,
   env: NODE_ENV,
   isCli,
   isRedisCluster,
+  network: {
+    authService: INSTA_AUTH_SERVICE
+  },
   isDev: () => NODE_ENV === 'development',
   isProd: () => NODE_ENV === 'production',
   elasticsearch : {
@@ -72,8 +80,8 @@ module.exports = {
       password: RABBITMQ_PASSWORD,
     },
     prefetchCount: parseInt(RABBITMQ_PREFETCH_COUNT) || 20,
-    queueName: 'agg.product.notifications',
-    exechangeName: 'agg.fanout',
+    queueName: 'insta.io.media.notifications',
+    exechangeName: 'insta.io.fanout',
     queueOptions:{
       durable: true
     }

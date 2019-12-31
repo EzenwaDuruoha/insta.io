@@ -4,7 +4,8 @@ const PostRepository = require('../../../repos/postRepo')
 const CommmentRepository = require('../../../repos/commentRepo')
 
 async function createCommentController (req, res) {
-  const {data} = res.locals
+  const {data, user} = res.locals
+  data.userId = user.id
   const {relatedTo, actor} = data
   const callbacks = {
     Post: PostRepository.get.bind(PostRepository, {_id: relatedTo}, false),

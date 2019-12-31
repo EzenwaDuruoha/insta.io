@@ -10,6 +10,9 @@ const {
   RABBITMQ_HOST = '127.0.0.1',
   RABBITMQ_USER = 'root',
   RABBITMQ_PASSWORD = 'root',
+  RABBITMQ_PROTOCOL = 'amqp',
+  RABBITMQ_PORT = 5672,
+  RABBITMQ_PREFETCH_COUNT,
   PORT = 80,
   NODE_ENV = 'development',
   SECRET_KEY = 'hey'
@@ -40,25 +43,28 @@ module.exports = {
   env: NODE_ENV,
   isCli,
   isRedisCluster,
+  isDev: () => NODE_ENV === 'development',
+  isProd: () => NODE_ENV === 'production',
   jwt: {
     expiresIn: '9000000',
     algorithm: 'HS256',
     header: {typ: 'Bearer'},
-    issuer: 'Agg.io'
+    issuer: 'Insta.io'
   },
   port: PORT,
   redis: redisConf,
   rabbitmq: {
     options: {
-      protocol: 'amqp',
+      protocol: RABBITMQ_PROTOCOL,
       hostname: RABBITMQ_HOST,
-      port: 5672,
+      port: RABBITMQ_PORT,
       heartbeat: 60,
       username: RABBITMQ_USER,
       password: RABBITMQ_PASSWORD,
     },
-    queueName: 'agg.auth.notifications',
-    exechangeName: 'agg.fanout',
+    prefetchCount: parseInt(RABBITMQ_PREFETCH_COUNT) || 20,
+    queueName: 'insta.io.auth.notifications',
+    exechangeName: 'insta.io.fanout',
     queueOptions:{
       durable: true
     }

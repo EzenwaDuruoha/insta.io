@@ -56,6 +56,7 @@ const {app, extend} = require('./src/app')
 const RedisService = require('@services/redis')
 const MQService = require('@services/rabbitmq')
 const DatabaseService = require('./src/database')
+const InstaUserService = require('./src/services/HTTP/InstaAuthService')
 
 app.set('port', config.port)
 
@@ -64,12 +65,14 @@ const server = http.createServer(app)
 const databaseService = new DatabaseService()
 const redisService = new RedisService()
 const mqService = new MQService(config.rabbitmq, logger, {tag: 'MQ_SERVICE'})
+const userService = new InstaUserService(config.network.authService)
 
 extend(function () {
   return {
+    config,
     redisService,
     mqService,
-    config
+    userService
   }
 })
 
@@ -79,8 +82,8 @@ mqService.on('message', (data) => {
 
 Promise.all([
   databaseService.init(),
-  // redisService.init(config.redis, config.isRedisCluster),
-  // mqService.init()
+  redisService.init(config.redis, config.isRedisCluster),
+  mqService.init(config.isDev())
 ])
   .then((success) => {
     logger.info('Required Services Initialized', {tag: 'app-index', stats: success})
@@ -90,7 +93,7 @@ Promise.all([
         global.exit()
         return
       }
-      // closers.push(mqService.close)
+      closers.push(mqService.close)
       closers.push(databaseService.close)
       logger.info('Server Started Successfully', {port: config.port, tag: 'app-index'})
     })

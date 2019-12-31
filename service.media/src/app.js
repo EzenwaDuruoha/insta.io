@@ -12,6 +12,9 @@ const dependencies = []
 // app setup
 app.disable('x-powered-by')
 app.use((req, res, next) => {
+  res.locals.user = null
+  res.locals.token = null
+  res.locals.isAuthenticated = false
   dependencies.forEach((fn) => {
     const r = fn(req, res)
     if (r && typeof r === 'object') {

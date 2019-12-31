@@ -84,7 +84,7 @@ mqService.on('message', (data) => {
 Promise.all([
   dbService.init(databaseConfig),
   redisService.init(config.redis, config.isRedisCluster),
-  mqService.init()
+  mqService.init(config.isDev())
 ])
   .then((success) => {
     logger.info('Required Services Initialized', {tag: 'app-index', stats: success})
@@ -94,7 +94,7 @@ Promise.all([
         global.exit()
         return
       }
-      closers.push(mqService.close)
+      closers.push(mqService.close.bind(mqService))
       logger.info('Server Started Successfully', {port: config.port, tag: 'app-index'})
     })
   })

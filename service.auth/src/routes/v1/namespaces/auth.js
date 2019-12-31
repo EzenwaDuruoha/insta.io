@@ -9,7 +9,7 @@ const registrationValidator = require('../../../validators/controllers/registrat
 const loginValidator = require('../../../validators/controllers/loginValidator')
 
 /** middleware */
-const useValidator = require('@middleware/use-validation')
+const useValidator = require('../../../middleware/useValidator')
 
 const router = Router()
 

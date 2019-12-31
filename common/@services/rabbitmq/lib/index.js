@@ -8,7 +8,6 @@ class MQService extends EventEmitter {
     this.config = config
     this.connector = null
     this.channel = null
-    this.exchange = null
     this.logger = logger || {
       info: () => {},
       error: () => {}
@@ -25,10 +24,10 @@ class MQService extends EventEmitter {
       await this.channel.assertQueue(queueName, queueOptions)
       await this.channel.assertExchange(exechangeName, 'fanout', queueOptions)
     }
-
+    const receiver = this.receiver.bind(this)
     await this.channel.bindQueue(queueName, exechangeName, '')
     await this.channel.prefetch(1)
-    await this.channel.consume(queueName, this.receiver, {noAck: false})
+    await this.channel.consume(queueName, receiver, {noAck: false})
     return true
   }
 
@@ -95,12 +94,12 @@ class MQService extends EventEmitter {
   close () {
     if (this.channel) {
       this.channel.close()
-      this.channel = null
     }
     if (this.connector) {
       this.connector.close()
-      this.connector = null
     }
+    this.channel = null
+    this.connector = null
     this.emit('close')
     this.logger.info('Closing MQ Connection')
   }

@@ -5,6 +5,7 @@ module.exports = [
     .trim()
     .not()
     .isEmpty()
+    .bail()
     .isLength({min: 2}),
   check('email')
     .trim()

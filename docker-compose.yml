@@ -26,6 +26,24 @@ services:
       - rabbitmq
       - common
 
+  media:
+    build:
+      context: ./service.media
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - "8090:80"
+    env_file:
+      - ./env/media.env
+    volumes:
+      - ./service.media:/app
+      - ./common:/common
+      - media-mod:/app/node_modules
+    command: sh -c "sleep 15 && npm run dev"
+    depends_on:
+      - redis
+      - rabbitmq
+      - common
+
   redis:
     restart: always
     image: "redis:alpine"
@@ -77,5 +95,5 @@ services:
 
 volumes:
   auth-mod:
-  core-mod:
+  media-mod:
   db_data:

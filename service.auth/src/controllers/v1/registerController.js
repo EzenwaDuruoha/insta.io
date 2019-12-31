@@ -9,7 +9,7 @@ const UserDataLayer = require('../../utils/userDataLayer')
  * @param {response} res
  */
 async function registerController (req, res) {
-  const {dbService, redisService, mqService, jwtService, data, config: {jwt: {expiresIn}}} = res.locals
+  const {dbService, redisService, mqService, jwtService, data, config: {jwt: {expiresIn}, rabbitmq: {exechangeName}}} = res.locals
   const {username, email, password} = data
   const userDataLayer = new UserDataLayer(dbService)
 
@@ -36,14 +36,14 @@ async function registerController (req, res) {
   redisService.set(userDataKey, JSON.stringify(json), 'EX', exp)
 
   setImmediate(() => {
-    mqService.publish({userId: user.id, email, username, createdAt: user.created_at}, {
+    mqService.publish({userId: user.id, email, username, createdAt: user.created_at}, exechangeName, {
       persist: true,
       headers: {
         notificationType: REGISTRATION_COMPLETE,
         relatedToUser: user.id
       }
     })
-    mqService.publish(json, {
+    mqService.publish(json, exechangeName, {
       persist: false,
       headers: {
         notificationType: SESSION_INIT,
