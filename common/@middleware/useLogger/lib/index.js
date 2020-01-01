@@ -28,7 +28,7 @@ module.exports = function (logger = null, meta = {}) {
 
     function logResponse () {
       const responseTime = (Date.now() - startTime) + 'ms'
-      const userId = !res.locals.user ? null : (res.locals.user.id) ? res.locals.user.id : null
+      const userId = !res.locals.user ? null : (res.locals.user.id) ? res.locals.user.id : res.user ? res.user.id : null
       const details = getLogDetails(req, res)
 
       logger.info('REQUEST', {...details, ...meta, responseTime, userId})

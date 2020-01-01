@@ -1,5 +1,6 @@
 const authenticators = require('../utils/authentication')
 const permissions = require('../utils/permission')
+const validations = require('../utils/validation')
 const {asyncForEach} = require('../../helpers/functionHelper')
 
 const proccessRunner = async (handlers = {}, frame, config) => {
@@ -24,8 +25,9 @@ const proccessRunner = async (handlers = {}, frame, config) => {
 }
 
 const STAGES = {
+  access: proccessRunner.bind(null, permissions),
   authentication: proccessRunner.bind(null, authenticators),
-  permission: proccessRunner.bind(null, permissions)
+  validation: proccessRunner.bind(null, )
 }
 module.exports.pipeline = (frame, config = {}) => {
   const logger = frame.logger

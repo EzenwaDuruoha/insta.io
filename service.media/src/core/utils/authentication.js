@@ -16,14 +16,13 @@ module.exports.jwtAuthenticator = async function (frame) {
   if (expire.isBefore()) return {error: new Error('Token Expired'), data: false}
 
   if (iss !== issuer) return {error: new Error('Falsied Token'), data: false}
+  const user = {id}
   return {
     error: null,
     data: {
       ...frame,
       context: {
-        user: {
-          id
-        },
+        user,
         token: authorization,
         tokenData: token,
         isAuthenticated: true,

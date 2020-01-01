@@ -7,7 +7,11 @@ class PostController extends BaseController {
   get (req, res, next) {
     return apiBuilder(req, res, next)
       .addDependency({postRepo: PostRepository})
-      .setPipeline({authenticator: ['jwtAuthenticator']})
+      .setPipeline('authentication', {authenticators: ['jwtAuthenticator']})
+      .runPipeline()
+      .setPipeline('validation', {path: 'param', field: 'id', validators: ['isUUID']})
+      .runPipeline()
+      .setPipeline('access', {permissions: 'isFriend'})
       .runPipeline()
       .runController(get)
   }
