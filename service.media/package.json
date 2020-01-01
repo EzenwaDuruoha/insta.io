@@ -20,7 +20,7 @@
    "author": "Ezenwa Duruoha",
    "dependencies": {
       "@middleware/use-error-handler": "file:../common/@middleware/useErrorHandler",
-      "@middleware/usecors": "file:../common/@middleware/usecors",
+      "@middleware/usecors": "file:../common/@middleware/useCors",
       "@middleware/uselogger": "file:../common/@middleware/useLogger",
       "@services/jwt": "file:../common/@services/jwt",
       "@services/rabbitmq": "file:../common/@services/rabbitmq",

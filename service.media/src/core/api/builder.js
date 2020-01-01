@@ -149,6 +149,28 @@ const apiBuilder = function (req, res, next) {
     return instance
   }
 
+  instance.runCustom = (fn) => {
+    if (typeof fn !== 'function') return instance
+    const task = async () => {
+      try {
+        return await fn(instance, getFrame(), {
+          isComplete,
+          setComplete,
+          newFrame,
+          getFrame,
+          getPipeline,
+          updatePipeline,
+          nukePipeline
+        })
+      } catch (error) {
+        logger.error(error, { tag: 'BUILDER_RUN_CUSTOM', requestId })
+        instance.complete(error)
+      }
+      queue.add(task, { name: 'runCustom' })
+      return instance
+    }
+  }
+
   return instance
 }
 

@@ -2,22 +2,19 @@ const RedisService = require('@services/redis')
 const MQService = require('@services/rabbitmq')
 const JWTService = require('@services/jwt')
 const DatabaseService = require('../database')
-const InstaUserService = require('../services/HTTP/InstaAuthService')
 const config = require('../../config')
 const logger = require('@utils/logger').getLogger({service: 'Media.Service'})
 
 const databaseService = new DatabaseService()
 const redisService = new RedisService()
 const mqService = new MQService(config.rabbitmq, logger, {tag: 'MQ_SERVICE'})
-const userService = new InstaUserService(config.network.authService)
 const jwtService = new JWTService()
 
 const services = {
   databaseService,
+  jwtService,
   mqService,
   redisService,
-  userService,
-  jwtService
 }
 
 module.exports = {

@@ -13,5 +13,5 @@
   "license": "Proprietary",
   "dependencies": {
     "winston": "^3.2.1"
- }
+  }
 }
