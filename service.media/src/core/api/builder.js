@@ -33,8 +33,10 @@ const apiBuilder = function (req, res, next) {
   const isComplete = () => complete
   const setComplete = (bool) => (complete = bool)
   const newFrame = (o) => (frame = Object.assign(frame, o))
-  const updatePipeline = (key, data) => (pipeline[key] = data)
-  const nukePipeline = () => Object.keys(pipeline).forEach((key) => delete pipeline[key])
+  const getFrame = () => frame
+  const getPipeline = () => pipelineOptions
+  const updatePipeline = (key, data) => (pipelineOptions[key] = data)
+  const nukePipeline = () => Object.keys(pipelineOptions).forEach((key) => delete pipelineOptions[key])
 
   queue.on('error', (err, args) => logger.error(err, {tag: 'BUILDER_TASK_QUEUE_ERROR', ...args, requestId}))
   queue.on('run', (payload) => logger.info('Queue Operation: RUN', {...payload, requestId}))
@@ -106,7 +108,7 @@ const apiBuilder = function (req, res, next) {
     const task = async () => {
       if (isComplete()) return
       try {
-        const extended = await pipeline(frame, pipelineOptions)
+        const extended = await pipeline(getFrame(), getPipeline())
         if (!extended) {
           instance.complete(new Error('No Result From Pipeline'))
           nukePipeline()
@@ -133,7 +135,7 @@ const apiBuilder = function (req, res, next) {
         if (isComplete()) return
         let result = null
         try {
-          result = await fn(frame)
+          result = await fn(getFrame())
         } catch (error) {
           logger.error(error, {tag: 'BUILDER_RUN_CONTROLLER', requestId})
           result = error

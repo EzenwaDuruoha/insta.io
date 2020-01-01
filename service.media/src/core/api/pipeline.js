@@ -24,19 +24,57 @@ const proccessRunner = async (handlers = {}, frame, config) => {
   return extendFrame
 }
 
+module.exports.proccessRunner = proccessRunner
+
 const STAGES = {
-  access: proccessRunner.bind(null, permissions),
-  authentication: proccessRunner.bind(null, authenticators),
-  validation: proccessRunner.bind(null, )
+  access: (frame, config) => {
+    if (!config) return frame
+    return proccessRunner(permissions, frame, config.permissions)
+  },
+  authentication: (frame, config) => {
+    if (!config) return frame
+    return proccessRunner(authenticators, frame, config.authenticators)
+  },
+  validation: async (frame, config) => {
+    if (!config) return frame
+    const {path, fields} = config
+    if (!path || !fields) throw new Error('Invalid Validation Config')
+    const foundPath = frame[path]
+    if (!foundPath) throw new Error('Invalid Path Parameter')
+    if (typeof fields !== 'object') throw new Error('Invalid Field Parameter')
+    const keys = Object.keys(fields)
+    keys.forEach((key) => {
+      const value = foundPath[key]
+      if (!value) throw new Error(`Invalid Value: ${key}`)
+      let check = fields[key]
+      if (!check) throw new Error(`Invalid Validators for check: ${key}`)
+      if (typeof check === 'string') {
+        check = [check]
+      } else if (!Array.isArray(check)) {
+        check = [JSON.stringify(check)]
+      }
+      const validator = validations[check]
+      if (!validator) throw new Error('Invalid Validator')
+      const valid = validator(value)
+      if (!valid) throw new Error(`Validation Failed: ${key}`)
+    })
+    return frame
+  }
 }
 module.exports.pipeline = (frame, config = {}) => {
+  console.log(' ')
+  console.log('PIPELINE', config)
+  console.log(' ')
   const logger = frame.logger
   return Promise.resolve()
     .then(() => {
-      return STAGES.authentication(frame, config.authenticator)
+      return STAGES.authentication(frame, config.authentication)
     })
     .then((f) => {
-      return STAGES.permission(f, config.permission)
+      return STAGES.validation(f, config.validation)
+    })
+    .then((f) => {
+      return STAGES.access(f, config.access)
     })
     .catch((error) => {
       logger.error(error, {tag: 'PIPELINE_RUNNER'})
