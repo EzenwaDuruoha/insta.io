@@ -52,43 +52,15 @@ process.on('unhandledRejection', exitHandler.bind(null, {exit: false, unhandled:
 
 logger.info('Media.Service Initialization..', {...config, tag: 'app-index'})
 
-const {app, extend} = require('./src/app')
-const RedisService = require('@services/redis')
-const MQService = require('@services/rabbitmq')
-const JWTService = require('@services/jwt')
-const DatabaseService = require('./src/database')
-const InstaUserService = require('./src/services/HTTP/InstaAuthService')
+const {app} = require('./src/app')
+const core = require('./src/core')
 
 app.set('port', config.port)
 
 const server = http.createServer(app)
-
-const databaseService = new DatabaseService()
-const redisService = new RedisService()
-const mqService = new MQService(config.rabbitmq, logger, {tag: 'MQ_SERVICE'})
-const userService = new InstaUserService(config.network.authService)
-const jwtService = new JWTService()
-
-extend(function () {
-  return {
-    config,
-    redisService,
-    mqService,
-    userService,
-    jwtService
-  }
-})
-
-mqService.on('message', (data) => {
-  logger.info('MQ Message Dispatch', {env: config.env})
-})
-
-Promise.all([
-  databaseService.init(),
-  redisService.init(config.redis, config.isRedisCluster),
-  mqService.init(config.isDev())
-])
+core.init()
   .then((success) => {
+    if (!success) global.exit()
     logger.info('Required Services Initialized', {tag: 'app-index', stats: success})
     server.listen(config.port, async (err) => {
       if (err) {
@@ -96,12 +68,7 @@ Promise.all([
         global.exit()
         return
       }
-      closers.push(mqService.close.bind(mqService))
-      closers.push(databaseService.close.bind(databaseService))
+      core.setupCloseHandlers(closers)
       logger.info('Server Started Successfully', {port: config.port, tag: 'app-index'})
     })
-  })
-  .catch(err => {
-    logger.error(err, {tag: 'app-index'})
-    global.exit()
   })

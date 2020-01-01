@@ -1,8 +1,7 @@
-const errorHandler = require('@middleware/use-error-handler')
-const PostRepository = require('../../../repos/postRepo')
-const {jsonResponse} = require('../../../helpers/responseHelper')
+const PostRepository = require('../../../../repos/postRepo')
+const {jsonResponse} = require('../../../../helpers/responseHelper')
 
-async function getPostsByQueryController (req, res) {
+async function postQuery (req, res) {
   const {data} = res.locals
   const {id, and, or} = data
   if (and && or) {
@@ -39,4 +38,4 @@ async function getPostsByQueryController (req, res) {
   return jsonResponse(res, posts, 200)
 }
 
-module.exports = errorHandler(getPostsByQueryController)
+module.exports = postQuery

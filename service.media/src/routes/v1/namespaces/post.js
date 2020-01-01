@@ -1,18 +1,11 @@
 const {Router} = require('express')
-// Middleware
-const useValidation = require('../../../middleware/useValidator')
-// Controllers
-const createController = require('../../../controllers/v1/posts/createPostController')
-const getPostController = require('../../../controllers/v1/posts/getPostController')
-const getPostByQueryController = require('../../../controllers/v1/posts/getPostsByQueryController')
-// Validators
-const createValidator = require('../../../validation/controllers/post/createValidator')
-const postQueryValidator = require('../../../validation/controllers/post/postQueryValidator')
+const PostController = require('../../../controllers/v1/posts')
 
 const router = Router()
+const postController = new PostController()
 
-router.get('/:id', getPostController)
-router.post('/create', [createValidator, useValidation, createController])
-router.post('/query', [postQueryValidator, useValidation, getPostByQueryController])
+router.post('/create', postController.create)
+router.post('/query', postController.query)
+router.get('/:id', postController.get)
 
 module.exports = router

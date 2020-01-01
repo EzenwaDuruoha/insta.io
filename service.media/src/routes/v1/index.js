@@ -2,7 +2,6 @@ const {Router} = require('express')
 
 const post = require('./namespaces/post')
 const comment = require('./namespaces/comment')
-const useHydrateUserContext = require('../../middleware/useHydrateUserContext')
 
 const router = Router()
 
@@ -12,9 +11,8 @@ router.use((req, res, next) => {
   res.setHeader('Content-Type', 'application/json')
   next()
 })
-router.use(useHydrateUserContext)
 
 router.use('/post', post)
-router.use('/comment', comment)
+// router.use('/comment', comment)
 
 module.exports = router

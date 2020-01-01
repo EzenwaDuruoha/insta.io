@@ -1,0 +1,57 @@
+const RedisService = require('@services/redis')
+const MQService = require('@services/rabbitmq')
+const JWTService = require('@services/jwt')
+const DatabaseService = require('../database')
+const InstaUserService = require('../services/HTTP/InstaAuthService')
+const config = require('../../config')
+const logger = require('@utils/logger').getLogger({service: 'Media.Service'})
+
+const databaseService = new DatabaseService()
+const redisService = new RedisService()
+const mqService = new MQService(config.rabbitmq, logger, {tag: 'MQ_SERVICE'})
+const userService = new InstaUserService(config.network.authService)
+const jwtService = new JWTService()
+
+const services = {
+  databaseService,
+  mqService,
+  redisService,
+  userService,
+  jwtService
+}
+
+module.exports = {
+  initialized: false,
+  init: async () => {
+    return Promise.all([
+      databaseService.init(),
+      redisService.init(config.redis, config.isRedisCluster),
+      mqService.init(config.isDev())
+    ])
+      .then((results) => {
+        this.initialized = true
+        return results
+      })
+      .catch((error) => {
+        this.initialized = false
+        logger.error(error, {tag: 'CORE_INIT'})
+        return false
+      })
+  },
+  getServices: () => {
+    return services
+  },
+  /**
+   * @param {Array} handlers
+   */
+  setupCloseHandlers: (handlers) => {
+    if (Array.isArray(handlers)) {
+      Object.keys(services).forEach((key) => {
+        const service = services[key]
+        if (typeof service.close === 'function') {
+          handlers.push(service.close.bind(service))
+        }
+      })
+    }
+  }
+}

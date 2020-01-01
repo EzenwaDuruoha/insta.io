@@ -24,8 +24,20 @@ module.exports = function (logger = null, meta = {}) {
     logger = console
   }
   return function (req, res, next) {
-    const details = getLogDetails(req, res)
-    logger.info('REQUEST', {...details, ...meta})
+    const startTime = Date.now()
+
+    function logResponse () {
+      const responseTime = (Date.now() - startTime) + 'ms'
+      const userId = !res.locals.user ? null : (res.locals.user.id) ? res.locals.user.id : null
+      const details = getLogDetails(req, res)
+
+      logger.info('REQUEST', {...details, ...meta, responseTime, userId})
+      res.removeListener('finish', logResponse)
+      res.removeListener('close', logResponse)
+    }
+
+    res.on('finish', logResponse)
+    res.on('close', logResponse)
     res.locals.logger = logger
     next()
   }
