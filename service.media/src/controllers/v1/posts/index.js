@@ -20,12 +20,12 @@ class PostController extends BaseController {
 
   create (req, res, next) {
     return apiBuilder(req, res, next)
-      .addDependency({ postRepo: PostRepository })
+      .addDependency({postRepo: PostRepository})
       .addDependency({s3Service: new S3Service()})
       .setPipeline('authentication', {authenticators: ['jwtAuthenticator']})
       .runPipeline()
       .runCustom((self, frame, hooks) => {
-        const { error, data } = useValidation(frame.request)
+        const {error, data} = useValidation(frame.request)
         if (error) {
           return self.complete({
             status: 'error',

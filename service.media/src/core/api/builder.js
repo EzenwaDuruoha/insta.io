@@ -163,12 +163,12 @@ const apiBuilder = function (req, res, next) {
           nukePipeline
         })
       } catch (error) {
-        logger.error(error, { tag: 'BUILDER_RUN_CUSTOM', requestId })
+        logger.error(error, {tag: 'BUILDER_RUN_CUSTOM', requestId})
         instance.complete(error)
       }
-      queue.add(task, { name: 'runCustom' })
-      return instance
     }
+    queue.add(task, {name: 'runCustom'})
+    return instance
   }
 
   return instance
