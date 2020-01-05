@@ -1,0 +1,8 @@
+export const indexRoute = '/'
+export const loginRoute = '/login'
+export const registerRoute = '/register'
+export const feedRoute = '/feed'
+export const profileRoute = '/profile'
+export const accountRoute = '/account'
+export const exploreRoute = '/explore'
+export const notFound = '/*'
