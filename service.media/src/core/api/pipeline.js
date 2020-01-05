@@ -63,6 +63,7 @@ const STAGES = {
 }
 module.exports.pipeline = (frame, config = {}) => {
   const logger = frame.logger
+  logger.info('Pipeline Execution', {config})
   return Promise.resolve()
     .then(() => {
       return STAGES.authentication(frame, config.authentication)
