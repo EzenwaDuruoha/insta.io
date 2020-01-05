@@ -25,7 +25,7 @@ module.exports.isFollowing = async (actor, related, frame = {}) => {
 }
 
 module.exports.canView = async (actor, related, frame = {}) => {
-  return _call(frame, 'access.canView', actor, related)
+  return {error: null, data: frame}
 }
 
 module.exports.checkBlocked = (frame) => {

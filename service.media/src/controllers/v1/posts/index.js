@@ -11,7 +11,6 @@ class PostController extends BaseController {
       .addDependency({postRepo: PostRepository})
       .setPipeline('authentication', {authenticators: ['jwtAuthenticator']})
       .setPipeline('validation', {path: 'params', fields: {id: ['isUUID']}})
-      .runPipeline()
       .setPipeline('access', {resource: 'Post', permissions: 'canView'})
       .runPipeline()
       .runController(get)

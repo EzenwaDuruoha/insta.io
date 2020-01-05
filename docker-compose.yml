@@ -78,6 +78,19 @@ services:
       - "traefik.http.middlewares.media-stripprefix.stripprefix.prefixes=/media"
       - "traefik.http.routers.media.middlewares=media-stripprefix"
 
+  frontend:
+    build:
+      context: ./service.web
+      dockerfile: ./docker/dev.Dockerfile
+    ports:
+      - "7000:80"
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./service.web:/app
+    depends_on:
+      - common
+
   redis:
     restart: always
     image: "redis:alpine"
