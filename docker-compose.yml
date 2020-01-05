@@ -26,6 +26,31 @@ services:
       - db
       - rabbitmq
       - common
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.auth.rule=Host(`192.168.99.100`) && PathPrefix(`/auth`)"
+      - "traefik.http.routers.auth.entrypoints=web"
+      - "traefik.http.services.auth.loadbalancer.server.port=80"
+      - "traefik.http.middlewares.auth-stripprefix.stripprefix.prefixes=/auth"
+      - "traefik.http.routers.auth.middlewares=auth-stripprefix"
+
+  gateway:
+    image: "traefik:v2.0.0-rc3"
+    container_name: "traefik"
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    depends_on:
+      - auth
+      - media
 
   media:
     build:
@@ -45,6 +70,13 @@ services:
       - redis
       - rabbitmq
       - common
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.media.rule=Host(`192.168.99.100`) && PathPrefix(`/media`)"
+      - "traefik.http.routers.media.entrypoints=web"
+      - "traefik.http.services.media.loadbalancer.server.port=80"
+      - "traefik.http.middlewares.media-stripprefix.stripprefix.prefixes=/media"
+      - "traefik.http.routers.media.middlewares=media-stripprefix"
 
   redis:
     restart: always
