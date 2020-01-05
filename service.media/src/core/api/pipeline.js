@@ -62,9 +62,6 @@ const STAGES = {
   }
 }
 module.exports.pipeline = (frame, config = {}) => {
-  console.log(' ')
-  console.log('PIPELINE', config)
-  console.log(' ')
   const logger = frame.logger
   return Promise.resolve()
     .then(() => {

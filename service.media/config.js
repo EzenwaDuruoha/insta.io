@@ -24,6 +24,7 @@ const {
   AWS_SECRET_KEY = 'root',
   AWS_REGION = 'eu-west-1',
   INSTA_AUTH_SERVICE = 'http://auth',
+  INSTA_RELATION_SERVICE = 'http://auth',
   SECRETS_PATH
 } = process.env
 
@@ -62,7 +63,8 @@ module.exports = {
   isCli,
   isRedisCluster,
   network: {
-    authService: INSTA_AUTH_SERVICE
+    authService: INSTA_AUTH_SERVICE,
+    relationService: INSTA_RELATION_SERVICE
   },
   isDev: () => NODE_ENV === 'development',
   isProd: () => NODE_ENV === 'production',

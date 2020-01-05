@@ -3,8 +3,29 @@ const util = require('util')
 const uuid = require('uuid/v4')
 
 const verify = util.promisify(jwt.verify)
+/**
+ * The JSON Web Token Options.
+ * @typedef {Object} JWTOptions
+ * @property {uuid} jwtid
+ * @property {String | Array<String>} algorithm
+ * @property {String} issuer
+ * @property {String} audience
+ * @property {String} subject
+ */
+
+/**
+  * @typedef {Object} User
+  * @property {uuid} id
+  */
 
 class JWTService {
+  /**
+   *
+   * @param {String} secret
+   * @param {User} claim
+   * @param {JWTOptions} options
+   * @param {String | Array<String>} algorithm
+   */
   generateToken (secret, claim, options = {}, algorithm = 'RS256') {
     const config = {
       jwtid: uuid(),
@@ -14,6 +35,13 @@ class JWTService {
     return jwt.sign(claim, secret, config)
   }
 
+  /**
+   *
+   * @param {String} secret
+   * @param {String} token
+   * @param {JWTOptions} options
+   * @param {String | Array<String>} algorithms
+   */
   async verifyToken (secret, token, options = {}, algorithms = ['RS256']) {
     const config = {
       algorithms,
@@ -31,6 +59,10 @@ class JWTService {
     return result
   }
 
+  /**
+   *
+   * @param {String} token
+   */
   decodeToken (token) {
     return jwt.decode(token, {complete: true, json: true})
   }

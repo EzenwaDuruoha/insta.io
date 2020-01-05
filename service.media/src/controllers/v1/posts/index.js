@@ -13,7 +13,7 @@ class PostController extends BaseController {
       .runPipeline()
       .setPipeline('validation', {path: 'params', fields: {id: ['isUUID']}})
       .runPipeline()
-      .setPipeline('access', {permissions: 'isFriend'})
+      .setPipeline('access', {resource: 'Post', permissions: 'canView'})
       .runPipeline()
       .runController(get)
   }

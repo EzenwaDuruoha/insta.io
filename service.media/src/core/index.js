@@ -16,7 +16,9 @@ const services = {
   mqService,
   redisService,
 }
-
+/**
+ * @module Media.Core
+ */
 module.exports = {
   initialized: false,
   init: async () => {
@@ -39,7 +41,7 @@ module.exports = {
     return services
   },
   /**
-   * @param {Array} handlers
+   * @param {Array<Function>} handlers
    */
   setupCloseHandlers: (handlers) => {
     if (Array.isArray(handlers)) {

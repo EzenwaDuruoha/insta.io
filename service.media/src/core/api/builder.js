@@ -5,7 +5,37 @@ const config = require('../../../config')
 const logger = require('@utils/logger').getLogger({service: 'Media.Service'})
 const Queue = require('../../utils/queue')
 const Response = require('../utils/response')
+/**
+ *
+ * @typedef {import('express').request} Request
+ * @typedef {import('express').response} Responsee
+ */
 
+/**
+ * Request Frame.
+ * @typedef {Object} Frame
+ * @property {Function} logger
+ * @property {uuid} requestId
+ * @property {Object} context
+ * @property {null | Object} context.user
+ * @property {null | String} context.token
+ * @property {Object} context.tokenData
+ * @property {Number} context.tokenData.exp
+ * @property {Number} context.tokenData.iat
+ * @property {String} context.tokenData.iss
+ * @property {String} context.tokenData.subject
+ * @property {uuid} context.tokenData.jti
+ * @property {Request} request
+ */
+
+/**
+ * ApiBuilder
+ * @module ApiBuilder
+ * @function
+ * @param {Request} req
+ * @param {Responsee} res
+ * @param {Function} next
+ */
 const apiBuilder = function (req, res, next) {
   const requestId = uuid()
   const queue = new Queue()
@@ -22,6 +52,10 @@ const apiBuilder = function (req, res, next) {
       tokenData: null,
       isAuthenticated: false,
     },
+    meta: {
+      permissions: [],
+      relatedObjects: {}
+    },
     request: req,
     body: req.body,
     file: req.file,
@@ -32,6 +66,11 @@ const apiBuilder = function (req, res, next) {
   }
   const isComplete = () => complete
   const setComplete = (bool) => (complete = bool)
+  /**
+   *
+   * @param {Frame} o
+   * @returns {Frame}
+   */
   const newFrame = (o) => (frame = Object.assign(frame, o))
   const getFrame = () => frame
   const getPipeline = () => pipelineOptions
@@ -41,9 +80,16 @@ const apiBuilder = function (req, res, next) {
   queue.on('error', (err, args) => logger.error(err, {tag: 'BUILDER_TASK_QUEUE_ERROR', ...args, requestId}))
   queue.on('run', (payload) => logger.info('Queue Operation: RUN', {...payload, requestId}))
   queue.on('result', (payload) => logger.info('Queue Operation: RESULT', {...payload, requestId}))
-
   /**
-   * @param {Object | Error} payload
+   * @typedef ResponseObject
+   * @property {String} status
+   * @property {Number} code
+   * @property {any} data
+   * @property {any} message
+   * @property {String} status
+   */
+  /**
+   * @param {ResponseObject | Error} payload
    */
   instance.complete = (payload) => {
     queue.clear()
@@ -92,7 +138,7 @@ const apiBuilder = function (req, res, next) {
   }
 
   /**
-   * @param {Object} options
+   * @param {Frame} options
    */
   instance.setFrame = (options) => {
     if (typeof options === 'object') {
@@ -148,7 +194,16 @@ const apiBuilder = function (req, res, next) {
     }
     return instance
   }
-
+  /**
+ * This callback is displayed as part of the Requester class.
+ * @callback CustomRunner
+ * @param {instance} instance
+ * @param {Frame} requestFrame
+ * @param {Object} hooks
+ */
+  /**
+   * @param {CustomRunner} fn
+   */
   instance.runCustom = (fn) => {
     if (typeof fn !== 'function') return instance
     const task = async () => {
