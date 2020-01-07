@@ -7,14 +7,13 @@ const {get, create, query} = require('./actions')
 
 class PostController extends BaseController {
   get (req, res, next) {
-    const b = apiBuilder(req, res, next)
+    return apiBuilder(req, res, next)
       .addDependency({postRepo: PostRepository})
       .setPipeline('authentication', {authenticators: ['jwtAuthenticator']})
       .setPipeline('validation', {path: 'params', fields: {id: ['isUUID']}})
       .setPipeline('access', {resource: 'Post', permissions: 'canView'})
       .runPipeline()
       .runController(get)
-    console.log(b)
   }
 
   create (req, res, next) {

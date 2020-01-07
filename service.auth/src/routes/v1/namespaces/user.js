@@ -1,22 +1,21 @@
 const {Router} = require('express')
 
 /** Controllers */
-const getUserController = require('../../../controllers/v1/getUserController')
-const getSessionUserController = require('../../../controllers/v1/getSessionUserController')
+const UserController = require('../../../controllers/v1/UserController')
 
 /** Validators */
 const getUserValidator = require('../../../validators/controllers/getUserValidator')
 
 /** middleware */
-const useValidator = require('../../../middleware/useValidator')
 const useTokenAuthenticator = require('../../../middleware/useTokenAuthenticator')
 
 const router = Router()
+const userController = new UserController()
 
 router.use(useTokenAuthenticator)
 
-router.get('/', getSessionUserController)
-router.get('/:id', [getUserValidator, useValidator, getUserController])
-router.post('/get', [getUserValidator, useValidator, getUserController])
+router.get('/', userController.session)
+router.get('/:id', getUserValidator, userController.get)
+router.post('/get', getUserValidator, userController.get)
 
 module.exports = router

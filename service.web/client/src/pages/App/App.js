@@ -5,7 +5,6 @@ import ErrorHandler from '../../components/Common/ErrorHandler'
 import { buildRoutes } from '../../util/system/routing'
 
 function App(props) {
-    console.log(props)
     const { routes, location } = props
     return (
         <div className="App">

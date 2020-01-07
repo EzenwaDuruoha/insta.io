@@ -34,7 +34,9 @@ function createBuilder (frameOptions = {}, contextOpions = {}, propsOptions = {}
       getContext: () => context,
       getProps: () => props,
       setProps: (o) => (props = Object.assign(props, o)),
-      getQueue: () => queue
+      getQueue: () => queue,
+      getRequest: () => req,
+      getResponse: () => res
     }
     const queueEventHandler = (state, error, args = {}) => {
       const e = error instanceof Error ? {error} : error
@@ -58,7 +60,6 @@ function createBuilder (frameOptions = {}, contextOpions = {}, propsOptions = {}
     context.addDependency = (dependency) => {
       if (typeof dependency === 'object') {
         queue.add(() => {
-          console.log('INSIDE DEPE QUE')
           frame.dependencies = Object.assign(frame.dependencies, dependency)
         }, {name: 'addDependency'})
       }
@@ -101,7 +102,7 @@ function createBuilder (frameOptions = {}, contextOpions = {}, propsOptions = {}
         try {
           return await fn(hooks, res)
         } catch (error) {
-          context.emit('error', error)
+          builder.emit('error', error)
           context.complete(error)
         }
       }

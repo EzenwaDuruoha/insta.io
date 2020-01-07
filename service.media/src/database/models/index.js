@@ -11,6 +11,4 @@ dir.forEach((path) => {
   }
 })
 
-console.log(models)
-
 module.exports = models

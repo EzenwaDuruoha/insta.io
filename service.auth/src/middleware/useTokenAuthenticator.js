@@ -2,10 +2,14 @@
 const moment = require('moment')
 const UserDataLayer = require('../utils/userDataLayer')
 const {REDIS_SESSION_BLACKLIST_KEY} = require('../constants/redis')
+const logger = require('@utils/logger').getLogger({service: 'Auth.Service'})
+const {getServices} = require('../core')
+const config = require('../../config')
 
 module.exports = async function (req, res, next) {
   const {headers: {authorization}} = req
-  const {config: {jwt: {issuer}, jwtCerts: {publicKey}}, dbService, redisService, jwtService, logger} = res.locals
+  const {jwt: {issuer}, jwtCerts: {publicKey}} = config
+  const {dbService, redisService, jwtService} = getServices()
 
   if (!authorization) {
     return res.status(403).json({
@@ -68,9 +72,11 @@ module.exports = async function (req, res, next) {
         message: 'Invalid Authentcation Token'
       })
     }
-    res.locals.user = user
-    res.locals.token = authorization
-    res.locals.isAuthenticated = true
+    res.locals.userContext = {
+      user,
+      token: authorization,
+      isAuthenticated: true
+    }
     next()
   } catch (error) {
     next(error)

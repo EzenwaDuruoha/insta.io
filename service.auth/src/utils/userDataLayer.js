@@ -51,12 +51,10 @@ class UserDataLayer {
    * @param {Object} args
    * @param {Object} meta
    */
-  async getUser (args = {}, meta = {}) {
+  async getUser (args = [], meta = {}) {
     const {data: userRepo} = await this.dbService.getRepoByName('UserEntity')
     return userRepo.findOne({
-      where: [
-        args
-      ],
+      where: args,
       ...meta
     })
   }
@@ -66,7 +64,7 @@ class UserDataLayer {
      * @param {String} username
      * @param {String} email
      */
-  async userExits (username, email) {
+  async userExits ({username, email}) {
     const {data: userRepo} = await this.dbService.getRepoByName('UserEntity')
     return userRepo.findOne({
       where: [

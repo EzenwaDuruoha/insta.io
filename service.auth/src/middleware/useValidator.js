@@ -12,7 +12,7 @@ const customChecker = validationResult.withDefaults({
   formatter: errorFormatter
 })
 
-module.exports = function (req, res, next) {
+module.exports.useValidator = function (req, res, next) {
   const errors = customChecker(req)
   const logger = res.locals.logger
   const ip = req.ip ||
@@ -28,4 +28,12 @@ module.exports = function (req, res, next) {
   }
   res.locals.data = matchedData(req, {locations: ['body']})
   next()
+}
+
+module.exports.useValidatorHook = function (req) {
+  const errors = customChecker(req)
+  if (!errors.isEmpty()) {
+    return {error: errors.array(), data: null}
+  }
+  return {error: null, data: matchedData(req, {locations: ['body']})}
 }

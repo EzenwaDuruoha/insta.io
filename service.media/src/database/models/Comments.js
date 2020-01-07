@@ -69,7 +69,6 @@ CommentSchema.statics.lookup = function (opt, extendPipeLine = []) {
     {$match: opt.query},
     ...extendPipeLine
   ]
-  console.log(pipeline)
   return this.aggregate(pipeline).exec()
   // .then(r => {
   //   return r.map(m => {

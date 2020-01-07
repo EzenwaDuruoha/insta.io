@@ -1,9 +1,9 @@
-const useValidation = require('../middleware/useValidator')
+const {useValidatorHook} = require('../middleware/useValidator')
 
 module.exports = (hooks) => {
-  const frame = hooks.getFrame()
+  const request = hooks.getRequest()
   const context = hooks.getContext()
-  const {error, data} = useValidation(frame.request)
+  const {error, data} = useValidatorHook(request)
   if (error) {
     return context.complete({
       status: 'error',
