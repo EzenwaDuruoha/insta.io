@@ -25,6 +25,7 @@
       "@services/jwt": "file:../common/@services/jwt",
       "@services/rabbitmq": "file:../common/@services/rabbitmq",
       "@services/redis": "file:../common/@services/redis",
+      "@utils/apibuilder": "file:../common/@utils/apibuilder",
       "@utils/logger": "file:../common/@utils/logger",
       "aws-sdk": "^2.596.0",
       "axios": "^0.19.0",

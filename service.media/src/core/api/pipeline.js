@@ -2,6 +2,7 @@ const authenticators = require('../utils/authentication')
 const permissions = require('../utils/permission')
 const validations = require('../utils/validation')
 const {asyncForEach} = require('../../helpers/functionHelper')
+const logger = require('@utils/logger').getLogger({service: 'Media.Service'})
 
 const proccessRunner = async (handlers = {}, frame, config) => {
   let extendFrame = frame
@@ -62,7 +63,6 @@ const STAGES = {
   }
 }
 module.exports.pipeline = (frame, config = {}) => {
-  const logger = frame.logger
   logger.info('Pipeline Execution', {config})
   return Promise.resolve()
     .then(() => {
@@ -75,7 +75,6 @@ module.exports.pipeline = (frame, config = {}) => {
       return STAGES.access(f, config.access)
     })
     .catch((error) => {
-      logger.error(error, {tag: 'PIPELINE_RUNNER'})
-      return false
+      return error
     })
 }

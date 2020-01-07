@@ -2,7 +2,7 @@
 const moment = require('moment')
 
 module.exports.jwtAuthenticator = async function (frame) {
-  const {request, core: {jwtService}, config} = frame
+  const {request, dependencies: {jwtService}, config} = frame
   const {authorization} = request.headers
   const {jwt: {issuer}, jwtCerts: {publicKey}} = config
 

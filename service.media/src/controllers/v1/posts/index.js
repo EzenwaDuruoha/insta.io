@@ -7,13 +7,14 @@ const {get, create, query} = require('./actions')
 
 class PostController extends BaseController {
   get (req, res, next) {
-    return apiBuilder(req, res, next)
+    const b = apiBuilder(req, res, next)
       .addDependency({postRepo: PostRepository})
       .setPipeline('authentication', {authenticators: ['jwtAuthenticator']})
       .setPipeline('validation', {path: 'params', fields: {id: ['isUUID']}})
       .setPipeline('access', {resource: 'Post', permissions: 'canView'})
       .runPipeline()
       .runController(get)
+    console.log(b)
   }
 
   create (req, res, next) {
@@ -22,16 +23,18 @@ class PostController extends BaseController {
       .addDependency({s3Service: new S3Service()})
       .setPipeline('authentication', {authenticators: ['jwtAuthenticator']})
       .runPipeline()
-      .runCustom((self, frame, hooks) => {
+      .runCustom((hooks) => {
+        const frame = hooks.getFrame()
+        const context = hooks.getContext()
         const {error, data} = useValidation(frame.request)
         if (error) {
-          return self.complete({
+          return context.complete({
             status: 'error',
             data: error,
             code:  400
           })
         }
-        hooks.newFrame({data})
+        hooks.setFrame({data})
       })
       .runController(create)
   }
