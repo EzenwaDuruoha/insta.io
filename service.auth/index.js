@@ -52,41 +52,16 @@ process.on('unhandledRejection', exitHandler.bind(null, {exit: false, unhandled:
 
 logger.info('Starting Agg-Auth Initialization..', {...config, tag: 'app-index'})
 
-const {app, extend} = require('./src/app')
-const DatabaseService = require('./src/database')
-const JWTService = require('@services/jwt')
-const RedisService = require('@services/redis')
-const MQService = require('@services/rabbitmq')
-const databaseConfig = require('./src/database/connection')
+const {app} = require('./src/app')
+const core = require('./src/core')
 
 app.set('port', config.port)
 
 const server = http.createServer(app)
-const dbService = new DatabaseService()
-const jwtService = new JWTService()
-const redisService = new RedisService()
-const mqService = new MQService(config.rabbitmq, logger, {tag: 'MQ_SERVICE'})
 
-extend(function () {
-  return {
-    dbService,
-    jwtService,
-    redisService,
-    mqService,
-    config
-  }
-})
-
-mqService.on('message', (data) => {
-  logger.info('MQ Message Dispatch', {env: config.env})
-})
-
-Promise.all([
-  dbService.init(databaseConfig),
-  redisService.init(config.redis, config.isRedisCluster),
-  mqService.init(config.isDev())
-])
+core.init()
   .then((success) => {
+    if (!success) global.exit()
     logger.info('Required Services Initialized', {tag: 'app-index', stats: success})
     server.listen(config.port, async (err) => {
       if (err) {
@@ -94,11 +69,7 @@ Promise.all([
         global.exit()
         return
       }
-      closers.push(mqService.close.bind(mqService))
+      core.setupCloseHandlers(closers)
       logger.info('Server Started Successfully', {port: config.port, tag: 'app-index'})
     })
-  })
-  .catch(err => {
-    logger.error(err, {tag: 'app-index'})
-    global.exit()
   })
