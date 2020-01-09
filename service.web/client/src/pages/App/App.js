@@ -11,6 +11,7 @@ function App(props) {
             <ErrorHandler>
                 <Suspense fallback={<Loader />}>
                     <div>
+                        Hey
                         <Switch location={location}>
                             {buildRoutes(routes)}
                         </Switch>

@@ -18,4 +18,5 @@ module.exports = {
   isDev,
   isProd,
   staticPath: isDev() ? `${appPath}/public` : `${appPath}/build`,
+  templatesPath: `${appPath}/server/src/templates`
 }

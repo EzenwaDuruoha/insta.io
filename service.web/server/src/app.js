@@ -35,13 +35,13 @@ app.use(express.static(config.staticPath))
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  return res.status(404).send('NOT FOUND')
+  return res.status(404).sendFile(`${config.templatesPath}/errors/404.html`)
 })
 
 // error handler
 app.use(function (error, req, res, next) {
   logger.error(error, { tag: '500-handler' })
-  res.status(500).json('Internal Server Error')
+  res.status(500).sendFile(`${config.templatesPath}/errors/500.html`)
 })
 
 module.exports = app
