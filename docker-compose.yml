@@ -88,6 +88,7 @@ services:
       NODE_ENV: development
     volumes:
       - ./service.web:/app
+      - fe_mod:/app/node_modules
     depends_on:
       - common
 
@@ -144,3 +145,4 @@ volumes:
   auth-mod:
   media-mod:
   db_data:
+  fe_mod:

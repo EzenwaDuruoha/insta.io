@@ -24,8 +24,8 @@ builder.addListener('error', (error) => {
   logger.error(error, {tag: 'BUILDER_STATIC'})
 })
 
-builder.addListener('queue', (data) => {
-  logger.info('API Builder Queue Event', {tag: 'BUILDER_STATIC', ...data})
-})
+// builder.addListener('queue', (data) => {
+//   logger.info('API Builder Queue Event', {tag: 'BUILDER_STATIC', ...data})
+// })
 
 module.exports = builder

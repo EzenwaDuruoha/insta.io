@@ -1,19 +1,27 @@
 module.exports = (ext = {}) => {
   const defaults = {
-    args: [
-      {path: 'data', value: 'username'},
-      {path: 'data', value: 'email'}
-    ],
+    args: {
+      or: [
+        {path: 'data', value: 'username'},
+        {path: 'data', value: 'email'},
+        {path: 'data', value: 'id'},
+        {path: 'params', value: 'id'}
+      ],
+    },
     service: 'userDataLayer',
     call: 'getUser',
     hydrate: (data) => {
-      const o = Object.keys(data).reduce((r, k) => {
-        if (data[k]) {
-          r.push({[k]: data[k]})
-        }
-        return r
-      }, [])
-      return [o, {
+      let q = data.or
+      if (!q) {
+        q = data.and
+      }
+      if (!q) {
+        q = data
+      }
+      if (!Array.isArray(q)) {
+        q = [q]
+      }
+      return [...q, {
         relations: ['profile', 'settings']
       }]
     }

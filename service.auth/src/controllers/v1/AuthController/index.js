@@ -36,7 +36,25 @@ class AuthController {
   register (req, res, next) {
     return builder(req, res, next)
       .runCustom(getValidationErrors)
-      .runCustom(getRelatedResource(userResource({call: 'userExits', hydrate: null}), {spreadArgs: false, identifier: 'foundUser'}))
+      .runCustom(getRelatedResource(userResource({
+        call: 'userExits',
+        hydrate: (data) => {
+          let q = data.or
+          if (!q) {
+            q = data.and
+          }
+          if (!q) {
+            q = data
+          }
+          if (Array.isArray(q)) {
+            q = q.reduce((r, s) => {
+              return Object.assign(r, s)
+            }, {})
+          }
+          return q
+        }
+      }),
+      {spreadArgs: false, identifier: 'foundUser'}))
       .runCustom((hooks) => {
         const {relatedResources: {foundUser}} = hooks.getFrame()
         if (foundUser) {

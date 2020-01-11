@@ -9,10 +9,19 @@ class UserController {
       .runCustom(getValidationErrors)
       .runCustom(getRelatedResource(userResource({
         hydrate: (data) => {
-          console.log(data)
-          return data
+          let q = data.or
+          if (!q) {
+            q = data.and
+          }
+          if (!q) {
+            q = data
+          }
+          if (!Array.isArray(q)) {
+            q = [q]
+          }
+          return q
         }
-      }), {passPath: 'data', identifier: 'user'}))
+      }), {passPath: false, identifier: 'user'}))
       .runController(get)
   }
 
