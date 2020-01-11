@@ -50,6 +50,7 @@
       "winston": "^3.2.1"
    },
    "devDependencies": {
+      "@nerdvision/agent": "^0.2.3",
       "chai": "^4.2.0",
       "mocha": "^6.2.2",
       "nodemon": "^1.19.4",
