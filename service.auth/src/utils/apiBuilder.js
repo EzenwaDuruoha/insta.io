@@ -24,6 +24,19 @@ builder.addListener('error', (error) => {
   logger.error(error, {tag: 'BUILDER_STATIC'})
 })
 
+builder.defineStaticMethod('setFrameUserContext', (hooks) => {
+  return () => {
+    const queue = hooks.getQueue()
+    queue.add(async () => {
+      const {locals: {userContext}} = hooks.getResponse()
+      if (userContext) {
+        hooks.setFrame({context: userContext})
+      }
+    }, {name: 'setFrameUserContext'})
+    return hooks.getContext()
+  }
+})
+
 // builder.addListener('queue', (data) => {
 //   logger.info('API Builder Queue Event', {tag: 'BUILDER_STATIC', ...data})
 // })

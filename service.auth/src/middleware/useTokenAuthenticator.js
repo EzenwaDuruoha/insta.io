@@ -75,6 +75,7 @@ module.exports = async function (req, res, next) {
     res.locals.userContext = {
       user,
       token: authorization,
+      tokenData: token,
       isAuthenticated: true
     }
     next()

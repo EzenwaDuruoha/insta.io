@@ -1,4 +1,4 @@
-const {get} = require('./actions')
+const {get, update} = require('./actions')
 const builder = require('../../../utils/apiBuilder')
 const {getValidationErrors, getRelatedResource} = require('../../../hooks')
 const userResource = require('../../../helpers/common/userResourceConf')
@@ -37,6 +37,15 @@ class UserController {
         })
       })
   }
+
+  update (req, res, next) {
+    return builder(req, res, next)
+      .runCustom(getValidationErrors)
+      .setFrameUserContext()
+      .runController(update)
+  }
+
+  delete (req, res, next) {}
 }
 
 module.exports = UserController

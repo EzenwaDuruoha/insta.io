@@ -48,15 +48,34 @@ class UserDataLayer {
 
   /**
    *
+   * @param {String} entity
+   * @param {Object} args
+   * @param {Object} meta
+   */
+  async getResources (entity, args = [], meta = {}) {
+    const {data: repo} = await this.dbService.getRepoByName(entity)
+    return repo.findOne({
+      where: args,
+      ...meta
+    })
+  }
+
+  /**
+   *
    * @param {Object} args
    * @param {Object} meta
    */
   async getUser (args = [], meta = {}) {
-    const {data: userRepo} = await this.dbService.getRepoByName('UserEntity')
-    return userRepo.findOne({
-      where: args,
-      ...meta
-    })
+    return this.getResources('UserEntity', args, meta)
+  }
+
+  /**
+   *
+   * @param {Object} args
+   * @param {Object} meta
+   */
+  async getProfile (args = [], meta = {}) {
+    return this.getResources('UserProfileEntity', args, meta)
   }
 
   /**
@@ -72,6 +91,44 @@ class UserDataLayer {
         {email}
       ]
     })
+  }
+
+  /**
+   *
+   * @param {String} entity
+   * @param {uuid} id
+   * @param {Model} model
+   */
+  async updateResource (entity, id, model) {
+    const {data: repo} = await this.dbService.getRepoByName(entity)
+    return repo.update(id, model)
+  }
+
+  /**
+   *
+   * @param {uuid} id
+   * @param {UserModel} user
+   */
+  async updateUser (id, user) {
+    return this.updateResource('UserEntity', id, user)
+  }
+
+  /**
+   *
+   * @param {uuid} id
+   * @param {UserProfileModel} profile
+   */
+  async updateProfile (id, profile) {
+    return this.updateResource('UserProfileEntity', id, profile)
+  }
+
+  /**
+   *
+   * @param {uuid} id
+   * @param {UserSettingsModel} settings
+   */
+  async updateSettings (id, settings) {
+    return this.updateResource('UserSettingsEntity', id, settings)
   }
 }
 

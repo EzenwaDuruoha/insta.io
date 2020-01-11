@@ -1,7 +1,6 @@
 const {EntitySchema} = require('typeorm')
 const UserProfile = require('../models/core/UserProfile')
-
-module.exports = new EntitySchema({
+const schema = {
   tableName: 'user_profiles',
   name: 'UserProfile',
   target: UserProfile,
@@ -11,7 +10,7 @@ module.exports = new EntitySchema({
       type: 'one-to-one',
       inverseSide: 'profile',
       joinColumn: true,
-      cascade: 'remove',
+      cascade: true,
       lazy: true,
       onDelete: 'CASCADE'
     }
@@ -34,6 +33,10 @@ module.exports = new EntitySchema({
     gender: {
       type: 'varchar',
       default: 'male'
+    },
+    mobile: {
+      type: 'varchar',
+      default: ''
     },
     street: {
       type: 'varchar',
@@ -74,4 +77,6 @@ module.exports = new EntitySchema({
       nullable: true
     }
   }
-})
+}
+module.exports = new EntitySchema(schema)
+module.exports.__schema = schema

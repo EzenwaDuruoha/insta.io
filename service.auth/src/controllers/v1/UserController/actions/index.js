@@ -1,3 +1,4 @@
 module.exports = {
-  get: require('./get')
+  get: require('./get'),
+  update: require('./update')
 }

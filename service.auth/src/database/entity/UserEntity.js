@@ -1,7 +1,7 @@
 const {EntitySchema} = require('typeorm')
 const User = require('../models/core/User')
 
-module.exports = new EntitySchema({
+const schema = {
   tableName: 'users',
   name: 'User',
   target: User,
@@ -65,4 +65,7 @@ module.exports = new EntitySchema({
       nullable: true
     }
   }
-})
+}
+
+module.exports = new EntitySchema(schema)
+module.exports.__schema = schema

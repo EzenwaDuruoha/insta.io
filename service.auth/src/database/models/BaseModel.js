@@ -13,6 +13,16 @@ class BaseModel {
       return reducer
     }, {})
   }
+
+  update (args = {}) {
+    if (typeof args !== 'object') throw new Error('Argument must be an object')
+    Object.keys(args).forEach((property) => {
+      if (Object.prototype.hasOwnProperty.call(this, property)) {
+        this[property] = args[property]
+      }
+    })
+    delete this.last_update
+  }
 }
 
 module.exports = BaseModel
