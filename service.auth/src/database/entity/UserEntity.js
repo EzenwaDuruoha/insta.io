@@ -15,6 +15,16 @@ const schema = {
       target: 'UserSettings',
       type: 'one-to-one',
       inverseSide: 'user'
+    },
+    following : {
+      target: 'Follow',
+      type: 'one-to-many',
+      inverseSide: 'follower'
+    },
+    followers : {
+      target: 'Follow',
+      type: 'one-to-many',
+      inverseSide: 'followed'
     }
   },
   columns: {

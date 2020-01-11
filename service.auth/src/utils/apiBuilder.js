@@ -2,10 +2,12 @@ const createBuilder = require('@utils/apibuilder')
 const logger = require('@utils/logger').getLogger({service: 'Auth.Service'})
 const config = require('../../config')
 const {getServices} = require('../core')
-const UserDataLayer = require('./userDataLayer')
+const UserDataLayer = require('./UserDataLayer')
+const SocialDataLayer = require('./SocialDataLayer')
 
 const services = getServices()
 const userDataLayer = new UserDataLayer(services.dbService)
+const socialDataLayer = new SocialDataLayer(services.dbService)
 
 const builder = createBuilder({
   logger,
@@ -16,7 +18,7 @@ const builder = createBuilder({
     tokenData: null,
     isAuthenticated: false,
   },
-  dependencies: Object.assign(services, {userDataLayer}),
+  dependencies: Object.assign(services, {userDataLayer, socialDataLayer}),
   relatedResources: {}
 })
 

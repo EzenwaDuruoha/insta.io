@@ -90,6 +90,10 @@ class DatabaseService {
     if (typeof name !== 'string') return false
     return models[name]
   }
+
+  query () {
+    return this.client.createQueryBuilder()
+  }
 }
 
 module.exports = DatabaseService
