@@ -1,15 +1,21 @@
-const PostRepository = require('../../../../repos/postRepo')
-const {jsonResponse} = require('../../../../helpers/responseHelper')
-
-async function postQuery (req, res) {
-  const {data} = res.locals
+async function postQuery (frame) {
+  const {dependencies: {postRepo}, data} = frame
   const {id, and, or} = data
   if (and && or) {
-    return jsonResponse(res, 'Only a Single Query Operation can be Performed', 400)
+    return {
+      status: 'error',
+      data: 'Only a Single Query Operation can be Performed',
+      code: 400
+    }
   }
+
   if (id) {
-    const post = await PostRepository.get({_id: id})
-    return jsonResponse(res, post, 200)
+    const post = await postRepo.get({_id: id})
+    return {
+      status: 'success',
+      data: post,
+      code: 200
+    }
   }
   const operation = and ? '$and' : '$or'
   const queryBuilder = {
@@ -18,6 +24,7 @@ async function postQuery (req, res) {
       [operation]: []
     }
   }
+
   const raw = and || or
   Object.keys(raw).forEach((key) => {
     if (key === 'tags') {
@@ -26,6 +33,7 @@ async function postQuery (req, res) {
       queryBuilder.query[operation].push({[key]: raw[key]})
     }
   })
+
   const extendPipeline = [{
     $project: {
       'tags.description': 0,
@@ -34,8 +42,13 @@ async function postQuery (req, res) {
       'tags.__v': 0
     }
   }]
-  const posts = await PostRepository.lookup(queryBuilder, extendPipeline)
-  return jsonResponse(res, posts, 200)
+  const posts = await postRepo.lookup(queryBuilder, extendPipeline)
+
+  return {
+    status: 'success',
+    data: posts,
+    code: 200
+  }
 }
 
 module.exports = postQuery

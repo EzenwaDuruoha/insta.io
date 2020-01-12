@@ -1,7 +1,9 @@
 const http = require('http')
+const {nerdvision} = require('@nerdvision/agent')
 const logger = require('@utils/logger').getLogger({service: 'Media.Service'})
 const config = require('./config')
-
+// eslint-disable-next-line max-len
+nerdvision.init('770fcf20df63e8eb70586e94af36a90d83efb7ffc8323012aee35189f29d7a5ea9633f315b3c01b48c6a8a8555d3b57b9be324f94a2d736b3181d78e50a4ecbf')
 const closers = []
 let exiting = false
 
@@ -69,6 +71,7 @@ core.init()
         return
       }
       core.setupCloseHandlers(closers)
+      closers.push(nerdvision.close.bind(nerdvision))
       logger.info('Server Started Successfully', {port: config.port, tag: 'app-index'})
     })
   })

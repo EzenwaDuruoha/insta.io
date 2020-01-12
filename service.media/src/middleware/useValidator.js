@@ -17,5 +17,5 @@ module.exports = function (req) {
   if (!errors.isEmpty()) {
     return {error: errors.array(), data: null}
   }
-  return {error: null, data: matchedData(req, { locations: ['body'] })}
+  return {error: null, data: matchedData(req, {locations: ['body']})}
 }

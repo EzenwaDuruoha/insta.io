@@ -1,6 +1,6 @@
-const {login, register} = require('./actions')
+const {login, register, logout} = require('./actions')
 const builder = require('../../../utils/apiBuilder')
-const {getValidationErrors, getRelatedResource} = require('../../../hooks')
+const {getValidationErrors, getRelatedResource, checkRelatedResource} = require('../../../hooks')
 const userResource = require('../../../helpers/common/userResourceConf')
 
 class AuthController {
@@ -8,28 +8,11 @@ class AuthController {
     return builder(req, res, next)
       .runCustom(getValidationErrors)
       .runCustom(getRelatedResource(userResource(), {spreadArgs: true, identifier: 'user'}))
-      .runCustom((hooks) => {
-        const {relatedResources: {user}} = hooks.getFrame()
-        if (!user) {
-          const context = hooks.getContext()
-          context.complete({
-            status: 'error',
-            data: 'User Doesn\'t Exist',
-            code: 404
-          })
-        }
-      })
-      .runCustom((hooks) => {
-        const {data: {password}, relatedResources: {user}} = hooks.getFrame()
-        if (!user.validatePassword(password)) {
-          const context = hooks.getContext()
-          context.complete({
-            status: 'error',
-            data: 'Incorrect Password',
-            code: 400
-          })
-        }
-      })
+      .runCustom(checkRelatedResource({
+        value: 'user',
+        validator: (user, frame) => user.validatePassword(frame.data.password),
+        message: {400: 'Invalid Password', 404: 'User not Found'}
+      }))
       .runController(login)
   }
 
@@ -55,18 +38,14 @@ class AuthController {
         }
       }),
       {spreadArgs: false, identifier: 'foundUser'}))
-      .runCustom((hooks) => {
-        const {relatedResources: {foundUser}} = hooks.getFrame()
-        if (foundUser) {
-          const context = hooks.getContext()
-          context.complete({
-            status: 'error',
-            data: 'Email or Username Taken',
-            code: 400
-          })
-        }
-      })
+      .runCustom(checkRelatedResource({value: 'foundUser'}))
       .runController(register)
+  }
+
+  logout (req, res, next) {
+    return builder(req, res, next)
+      .setFrameUserContext()
+      .runController(logout)
   }
 }
 

@@ -25,7 +25,7 @@ class Queue extends EventEmitter {
     if (this.currentTimer) return
     const task = this.tasks.shift()
     if (!task) {
-      this.emit('complete')
+      this.emit('complete', {results: this.results})
       return this.clear()
     }
     this.emit('run', {meta: task.meta, position: task.position})

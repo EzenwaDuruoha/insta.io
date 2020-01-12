@@ -13,6 +13,6 @@ router.use((req, res, next) => {
 })
 
 router.use('/post', post)
-// router.use('/comment', comment)
+router.use('/comment', comment)
 
 module.exports = router
