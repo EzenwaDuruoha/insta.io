@@ -13,6 +13,7 @@ services:
       dockerfile: ./docker/Dockerfile
     ports:
       - "3000:80"
+      - "9229:9229"
     volumes:
       - ./service.auth:/app
       - ./common:/common
@@ -58,6 +59,7 @@ services:
       dockerfile: ./docker/Dockerfile
     ports:
       - "8090:80"
+      - "9230:9229"
     env_file:
       - ./env/media.env
     volumes:

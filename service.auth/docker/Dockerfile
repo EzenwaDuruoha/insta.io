@@ -44,6 +44,6 @@ COPY --from=build /tmp/build ${APP_PATH}
 
 USER ${user}
 
-EXPOSE 80
+EXPOSE 80 9229
 
 CMD ["npm", "start"]
