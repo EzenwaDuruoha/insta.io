@@ -7,3 +7,5 @@ setup(
     license='Private',
     long_description=open('Readme.md').read(),
 )
+
+from lib import runner

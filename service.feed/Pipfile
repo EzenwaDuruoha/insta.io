@@ -4,8 +4,12 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pytest = "*"
 
 [packages]
+requests = "*"
+celery = {extras = ["elasticsearch", "librabbitmq", "redis"],version = "*"}
+pymongo = "*"
 
 [requires]
 python_version = "3.7"
