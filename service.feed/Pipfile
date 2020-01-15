@@ -5,11 +5,19 @@ verify_ssl = true
 
 [dev-packages]
 pytest = "*"
+autopep8 = "*"
+watchdog = "*"
 
 [packages]
 requests = "*"
 celery = {extras = ["elasticsearch", "librabbitmq", "redis"],version = "*"}
 pymongo = "*"
+mongoengine = "*"
+dnspython = "*"
+python-json-logger = "*"
+structlog = "*"
+redis = "*"
+redis-py-cluster = "*"
 
 [requires]
 python_version = "3.7"

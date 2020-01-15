@@ -94,6 +94,17 @@ services:
     depends_on:
       - common
 
+  feed:
+    build:
+      context: ./service.feed
+      dockerfile: ./docker/Dockerfile
+    env_file:
+        - ./env/feed.env
+    volumes:
+        - ./service.feed:/app
+    command: pipenv run watchmedo auto-restart --directory=./ --pattern=*.py --recursive -- celery worker -E --app=lib.celery:runner --concurrency=1 --loglevel=INFO
+    # command: tail -f /dev/null
+
   redis:
     restart: always
     image: "redis:alpine"

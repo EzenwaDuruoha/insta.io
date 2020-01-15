@@ -1,4 +1,4 @@
-FROM python:3.7-alpine
+FROM python:3.7-slim-buster
 
 ARG env=development
 ARG trace=1
@@ -7,16 +7,14 @@ ENV ENV=${env}
 ENV PYTHONUNBUFFERED 1
 ENV CELERY_TRACE_APP=${trace}
 
-RUN python -m pip install --upgrade pip
-RUN apk add --no-cache --virtual .build-deps gcc musl-dev libffi-dev make
+RUN pip install pipenv
 
 WORKDIR /app
 
-COPY ./Pipfile Pipfile.lock ./
+COPY Pipfile* ./
 
-RUN set -ex && pipenv install --deploy --system && \
-    apk --purge del .build-deps
+RUN pipenv install --deploy --ignore-pipfile --dev
 
 COPY . .
 
-CMD ["celery", "-A", "worker", "worker", "-l", "info"]
+CMD ["pipenv", "run", "celery", "-A", "lib", "worker", "-l", "info"]
