@@ -14,7 +14,7 @@ const services = {
   databaseService,
   jwtService,
   mqService,
-  redisService,
+  redisService
 }
 /**
  * @module Media.Core
@@ -25,7 +25,7 @@ module.exports = {
     return Promise.all([
       databaseService.init(),
       redisService.init(config.redis, config.isRedisCluster),
-      mqService.init(config.isDev())
+      mqService.init(config.isDev()),
     ])
       .then((results) => {
         this.initialized = true

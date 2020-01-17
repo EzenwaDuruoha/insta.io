@@ -12,8 +12,10 @@ elif mode is list:
 
 class RedisService:
     client = None
+
     def __init__(self):
         if isCluster:
-            self.client = StrictRedisCluster(startup_nodes=REDIS, decode_responses=True)
+            self.client = StrictRedisCluster(
+                startup_nodes=REDIS, decode_responses=True)
         else:
             self.client = StrictRedis(**REDIS)

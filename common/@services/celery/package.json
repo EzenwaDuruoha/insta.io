@@ -1,0 +1,18 @@
+{
+  "name": "@services/celery",
+  "version": "1.0.0",
+  "description": "Celery Client for Node Service",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Celery",
+    "RabbitMQ"
+  ],
+  "author": "Ezenwa Duruoha",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "node-celery": "^0.2.8"
+  }
+}

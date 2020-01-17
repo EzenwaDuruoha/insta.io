@@ -22,6 +22,7 @@
       "@middleware/use-error-handler": "file:../common/@middleware/useErrorHandler",
       "@middleware/usecors": "file:../common/@middleware/useCors",
       "@middleware/uselogger": "file:../common/@middleware/useLogger",
+      "@services/celery": "file:../common/@services/celery",
       "@services/jwt": "file:../common/@services/jwt",
       "@services/rabbitmq": "file:../common/@services/rabbitmq",
       "@services/redis": "file:../common/@services/redis",

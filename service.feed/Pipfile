@@ -10,7 +10,7 @@ watchdog = "*"
 
 [packages]
 requests = "*"
-celery = {extras = ["elasticsearch", "librabbitmq", "redis"],version = "*"}
+celery = {extras = ["elasticsearch", "librabbitmq"],version = "*"}
 pymongo = "*"
 mongoengine = "*"
 dnspython = "*"
@@ -18,6 +18,7 @@ python-json-logger = "*"
 structlog = "*"
 redis = "*"
 redis-py-cluster = "*"
+flower = "*"
 
 [requires]
 python_version = "3.7"
