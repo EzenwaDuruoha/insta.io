@@ -8,7 +8,7 @@
       "test": "NODE_ENV=development mocha tests --recursive --exit",
       "test:dev": "NODE_ENV=development mocha tests --recursive --reporter min -w",
       "cover": "NODE_ENV=development nyc mocha ./tests -name '*.spec.js' --recursive -R spec --exit",
-      "dev": "nodemon --inspect=0.0.0.0 ./index.js"
+      "dev": "nodemon -L --inspect=0.0.0.0 ./index.js"
    },
    "keywords": [
       "Media"

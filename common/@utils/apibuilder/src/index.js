@@ -74,8 +74,9 @@ function createBuilder (frameOptions = {}, contextOpions = {}, propsOptions = {}
       }
       return context
     }
-
-    context.runController = (fn) => {
+    // {if: [{'option.value.inner': 'some value'}]}
+    context.runController = (fn, options = {}) => {
+      const defaults = Object.assign({if: null}, options)
       if (hooks.isComplete()) return context
       if (typeof fn === 'function') {
         const task = async () => {

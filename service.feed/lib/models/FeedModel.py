@@ -5,7 +5,7 @@ from mongoengine import (
     EmbeddedDocument, 
     UUIDField, 
     StringField, 
-    DateTimeField
+    DateTimeField,
     EmbeddedDocumentField
 )
 from lib.querysets import FeedQuerySet

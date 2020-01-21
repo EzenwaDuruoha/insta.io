@@ -1,1 +1,1 @@
-from lib.services.redis import RedisService
+from lib.services.redis import RedisService, RedisFactory

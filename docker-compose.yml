@@ -105,18 +105,26 @@ services:
 
   worker:
     <<: *celery
+    command: sh -c "sleep 15 && pipenv run watchmedo auto-restart --directory=./ --pattern=*.py --recursive -- celery worker -E --app=lib.celery --concurrency=1 --loglevel=DEBUG"
+    # command: tail -f /dev/null
     depends_on:
       - rabbitmq
-    command: sh -c "sleep 15 && pipenv run watchmedo auto-restart --directory=./ --pattern=*.py --recursive -- celery worker -E --app=lib.celery:runner --concurrency=1 --loglevel=INFO"
-    # command: tail -f /dev/null
-
+  
   flower:
-    image: mher/flower
-    environment:
-      CELERY_BROKER_URL: amqp://agg:Test123@rabbitmq:5672/
-      FLOWER_PORT: 8888
+    <<: *celery
     ports:
-      - "8888:8888"
+      - "8888:5555"   
+    command: sh -c "sleep 15 && pipenv run celery flower -A lib.celery --port=5555 "
+
+  # flower:
+  #   image: mher/flower
+  #   ports:
+  #     - "8888:5555"
+  #   depends_on:
+  #     - rabbitmq
+  #     - worker
+  #     - redis
+  #   command: flower --broker=amqp://agg:Test123@rabbitmq:5672/ --backend=redis://redis:6379
 
   redis:
     restart: always
