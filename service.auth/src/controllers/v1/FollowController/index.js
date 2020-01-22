@@ -1,4 +1,4 @@
-const {update, count} = require('./actions')
+const {update, count, follows} = require('./actions')
 const builder = require('../../../utils/apiBuilder')
 const {getValidationErrors, getRelatedResource, runFollowChecks} = require('../../../hooks')
 const userResource = require('../../../helpers/common/userResourceConf')
@@ -23,6 +23,13 @@ class FollowController {
       .runCustom(getValidationErrors)
       .setFrameUserContext()
       .runController(count)
+  }
+
+  follows (req, res, next) {
+    return builder(req, res, next)
+      .runCustom(getValidationErrors)
+      .setFrameUserContext()
+      .runController(follows)
   }
 }
 module.exports = FollowController

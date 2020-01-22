@@ -33,7 +33,7 @@ services:
     command: sh -c "sleep 15 && npm run dev"
     depends_on:
       - redis
-      - db
+    #   - db
       - rabbitmq
       - common
     labels:
@@ -132,17 +132,17 @@ services:
     ports:
       - "6379:6379"
 
-  db:
-    image: mdillon/postgis
-    restart: always
-    environment:
-      POSTGRES_USER: popup
-      POSTGRES_PASSWORD: popup
-      POSTGRES_DB: engage
-    volumes:
-      - db_data:/var/lib/postgresql/data/
-    ports:
-      - "5432:5432"
+#   db:
+#     image: mdillon/postgis
+#     restart: always
+#     environment:
+#       POSTGRES_USER: popup
+#       POSTGRES_PASSWORD: popup
+#       POSTGRES_DB: engage
+#     volumes:
+#       - db_data:/var/lib/postgresql/data/
+#     ports:
+#       - "5432:5432"
 
   rabbitmq:
     image: rabbitmq:3.7.17-management-alpine

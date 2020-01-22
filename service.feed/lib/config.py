@@ -7,6 +7,7 @@ DATABASE_USER = os.getenv('DATABASE_USER', None)
 DATABASE_PASSWORD = os.getenv('DATABASE_PASSWORD', None)
 DATABASE_NAME = os.getenv('DATABASE_NAME', 'admin')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
+USER_SERVICE_URL = os.getenv('USER_SERVICE_URL', 'http://auth')
 REDIS = None
 
 # 127.0.0.1:6342, 127.0.0.1:6345

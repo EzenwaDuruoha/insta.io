@@ -8,12 +8,9 @@ const getUserValidator = require('../../../validators/controllers/getUserValidat
 const updateUserValidator = require('../../../validators/controllers/updateUserValidator')
 
 /** middleware */
-const useTokenAuthenticator = require('../../../middleware/useTokenAuthenticator')
 
 const router = Router()
 const userController = new UserController()
-
-router.use(useTokenAuthenticator)
 
 router.get('/', userController.session)
 router.post('/', getUserValidator, userController.get)

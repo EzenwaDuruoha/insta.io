@@ -1,4 +1,5 @@
 module.exports = {
   update: require('./update'),
-  count: require('./count')
+  count: require('./count'),
+  follows: require('./follows')
 }

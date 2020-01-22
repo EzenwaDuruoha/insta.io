@@ -26,7 +26,7 @@ module.exports.useValidator = function (req, res, next) {
       data: errors.array()
     })
   }
-  res.locals.data = matchedData(req, {locations: ['body']})
+  res.locals.data = matchedData(req, {locations: ['body', 'query', 'params']})
   next()
 }
 
@@ -35,5 +35,5 @@ module.exports.useValidatorHook = function (req) {
   if (!errors.isEmpty()) {
     return {error: errors.array(), data: null}
   }
-  return {error: null, data: matchedData(req, {locations: ['body']})}
+  return {error: null, data: matchedData(req, {locations: ['body', 'query', 'params']})}
 }

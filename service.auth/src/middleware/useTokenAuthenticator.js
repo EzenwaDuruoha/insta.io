@@ -1,6 +1,6 @@
 /* eslint-disable require-atomic-updates */
 const moment = require('moment')
-const UserDataLayer = require('../utils/userDataLayer')
+const UserDataLayer = require('../repos/userDataLayer')
 const {REDIS_SESSION_BLACKLIST_KEY} = require('../constants/redis')
 const logger = require('@utils/logger').getLogger({service: 'Auth.Service'})
 const {getServices} = require('../core')
