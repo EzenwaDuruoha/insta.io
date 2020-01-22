@@ -8,7 +8,7 @@ redisService = RedisFactory()
 
 
 @runner.task(bind=True, name='dispatch_feed_fanout')
-def fanout(self, activity = dict()):
+def fanout(self, activity=dict()):
     listKey = USER_FEED.format(activity['actor'])
     active = redisService.exists(listKey)
     timestamp = activity.pop('timestamp')
@@ -17,10 +17,9 @@ def fanout(self, activity = dict()):
         pipe = redisService.pipeline()
         pipe.lpush(listKey, json.dumps(dump))
         pipe.ltrim(listKey, 0, 100)
-        complete = pipe.execute()
+        pipe.execute()
     userId = activity.get('actor')
     activityModel = ActivityModel(**activity)
-    feed = FeedModel(userId=userId, timestamp=timestamp, activity=activityModel)
+    feed = FeedModel(userId=userId, timestamp=timestamp,
+                     activity=activityModel)
     feed.save()
-
-

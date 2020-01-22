@@ -1,4 +1,5 @@
 const redisConstants = require('./redis')
+const feedConstants = require('./feed')
 
 module.exports.MODEL_ACTIVITY_ACTORS = ['Comment', 'Post']
 module.exports.ALLOWED_MEDIA_CONTENT_TYPES = [
@@ -26,4 +27,4 @@ module.exports.CONTENT_TYPES_TO_EXTENSION = {
   'video/3gpp': '.3gp'
 }
 
-module.exports = Object.assign(module.exports, redisConstants)
+module.exports = Object.assign(module.exports, redisConstants, feedConstants)
