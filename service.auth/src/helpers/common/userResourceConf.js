@@ -12,6 +12,9 @@ module.exports = (ext = {}) => {
     call: 'getUser',
     hydrate: (data) => {
       let q = data.or
+      if (q) {
+        q = q[0]
+      }
       if (!q) {
         q = data.and
       }

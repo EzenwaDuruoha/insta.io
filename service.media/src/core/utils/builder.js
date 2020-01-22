@@ -2,6 +2,7 @@ const createBuilder = require('@utils/apibuilder')
 const logger = require('@utils/logger').getLogger({service: 'Media.Service'})
 const PostRepository = require('../../repos/postRepo')
 const CommentRepository = require('../../repos/commentRepo')
+const FeedRepository = require('../../repos/feedRepo')
 const TagRepository = require('../../repos/tagRepo')
 const S3Service = require('../../services/AWS/S3Service')
 const config = require('../../../config')
@@ -21,6 +22,7 @@ const builder = createBuilder({
     postRepo: PostRepository,
     commentRepo: CommentRepository,
     tagRepo: TagRepository,
+    feedRepo: FeedRepository,
     s3Service: new S3Service()
   },
   meta: {

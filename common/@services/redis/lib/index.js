@@ -68,6 +68,18 @@ class RedisService extends EventEmitter {
   ttl (...args) {
     return this.handle((...args) => this._client.ttl(...args))(...args)
   }
+
+  lrange (...args) {
+    return this.handle((...args) => this._client.lrange(...args))(...args)
+  }
+
+  lpush (...args) {
+    return this.handle((...args) => this._client.lpush(...args))(...args)
+  }
+
+  rpush (...args) {
+    return this.handle((...args) => this._client.rpush(...args))(...args)
+  }
 }
 
 module.exports = RedisService

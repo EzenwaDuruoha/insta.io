@@ -2,6 +2,7 @@ const {Router} = require('express')
 
 const post = require('./namespaces/post')
 const comment = require('./namespaces/comment')
+const feed = require('./namespaces/feed')
 
 const router = Router()
 
@@ -14,5 +15,6 @@ router.use((req, res, next) => {
 
 router.use('/post', post)
 router.use('/comment', comment)
+router.use('/feed', feed)
 
 module.exports = router

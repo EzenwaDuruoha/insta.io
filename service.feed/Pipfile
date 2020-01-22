@@ -20,6 +20,7 @@ structlog = "*"
 redis = "*"
 redis-py-cluster = "*"
 flower = "*"
+python-dateutil = "*"
 
 [requires]
 python_version = "3.7"
