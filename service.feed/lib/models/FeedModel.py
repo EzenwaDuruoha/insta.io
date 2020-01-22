@@ -1,33 +1,38 @@
 from datetime import datetime
 from uuid import uuid4
 from mongoengine import (
-    Document, 
-    EmbeddedDocument, 
-    UUIDField, 
-    StringField, 
+    Document,
+    EmbeddedDocument,
+    UUIDField,
+    StringField,
     DateTimeField,
-    EmbeddedDocumentField
+    EmbeddedDocumentField,
+    ComplexDateTimeField,
+    ListField
 )
 from lib.querysets import FeedQuerySet
 
+
 class ActivityModel(EmbeddedDocument):
     """Activity Embedded Document Schema"""
-    actor = UUIDField(required=True)
+    actor = StringField(required=True)
     verb = StringField(required=True, default='Post')
-    content = UUIDField(required=True)
-    username = UUIDField(required=True)
+    content = StringField(required=True)
+    contentURL = ListField(StringField(required=True))
+    username = StringField(required=True)
+
 
 class FeedModel(Document):
     """Feed Document Schema"""
-    id = UUIDField(primary_key=True, default=uuid4)
-    userId = UUIDField(required=True)
+    id = StringField(primary_key=True, default=lambda: str(uuid4()))
+    userId = StringField(required=True)
     activity = EmbeddedDocumentField(ActivityModel)
     timestamp = DateTimeField(required=True)
-    createdAt = DateTimeField(default=datetime.utcnow)
+    created_at = DateTimeField(default=datetime.utcnow)
 
     meta = {
         'collection': 'feeds',
-        'ordering': ['-timestamp']
+        'ordering': ['-timestamp'],
         'indexes': [
             'userId',
             ('userId', '-timestamp')

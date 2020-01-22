@@ -38,7 +38,7 @@ class AuthController {
         }
       }),
       {spreadArgs: false, identifier: 'foundUser'}))
-      .runCustom(checkRelatedResource({value: 'foundUser', not: true, message: {400: 'User Alreay Exists'}}))
+      .runCustom(checkRelatedResource({value: 'foundUser', not: true, message: {400: 'User Already Exists'}}))
       .runController(register)
   }
 

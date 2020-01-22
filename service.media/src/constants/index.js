@@ -1,3 +1,5 @@
+const redisConstants = require('./redis')
+
 module.exports.MODEL_ACTIVITY_ACTORS = ['Comment', 'Post']
 module.exports.ALLOWED_MEDIA_CONTENT_TYPES = [
   'image/bmp',
@@ -23,3 +25,5 @@ module.exports.CONTENT_TYPES_TO_EXTENSION = {
   'image/webp': '.webp',
   'video/3gpp': '.3gp'
 }
+
+module.exports = Object.assign(module.exports, redisConstants)
