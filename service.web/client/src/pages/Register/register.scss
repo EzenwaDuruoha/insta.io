@@ -1,0 +1,125 @@
+.Register {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .center {
+    color: #262626;
+    flex-grow: 1;
+    justify-content: center;
+    margin-top: 60px;
+    max-width: 350px;
+    width: 100%;
+
+    .bx {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #fff;
+      border: 1px solid #e6e6e6;
+      border-radius: 1px;
+      margin: 0 0 10px;
+      padding: 10px 0;
+      box-sizing: border-box;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .form-container {
+      header {
+        font-family: "Billabong";
+        font-weight: 500;
+        font-size: 55px;
+        margin: 22px auto 12px;
+      }
+
+      .form {
+        width: 100%;
+        .register-form {
+          display: flex;
+          flex-direction: column;
+
+          .br {
+            margin-bottom: 24px;
+          }
+
+          .field {
+            margin: 0 40px 6px;
+          }
+
+          .submit-btn {
+            margin: 8px 40px;
+
+            button {
+              color: white;
+              background-color: #3897f0;
+              border-radius: 4px;
+              position: relative;
+              appearance: none;
+              border: 0;
+              box-sizing: border-box;
+              cursor: pointer;
+              display: block;
+              font-weight: 600;
+              padding: 5px 9px;
+              text-align: center;
+              text-transform: inherit;
+              text-overflow: ellipsis;
+              user-select: none;
+              width: 100%;
+              font-size: 14px;
+              line-height: 18px;
+            }
+            button:disabled {
+              background-color: rgba(56, 151, 240, 0.3);
+            }
+          }
+
+          .form-error {
+            color: #ed4956;
+            margin: 10px 40px;
+            font-size: 14px;
+            line-height: 18px;
+            text-align: center;
+            p {
+              margin: 0;
+              padding: 0;
+              border: 0;
+              font: inherit;
+              vertical-align: baseline;
+              span {
+                  display: inline-block;
+              }
+            }
+          }
+        }
+      }
+
+      .terms {
+        color: #999;
+        margin: 10px 60px;
+        font-size: 14px;
+        line-height: 18px;
+        text-align: center;
+      }
+    }
+
+    .opt {
+      width: 100%;
+      span {
+        color: #262626;
+        font-size: 14px;
+        margin: 15px;
+        text-align: center;
+      }
+      a {
+        color: #3897f0;
+        text-decoration: none;
+      }
+    }
+  }
+}

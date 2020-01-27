@@ -3,11 +3,9 @@ import { Redirect } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 export default function Gateway(props) {
-  // const loginState = useSelector((store) => store.loginState)
-  const {loginState = {}} = props
-  const { loggedIn } = loginState
+  const authState = useSelector((store) => store.authState)
+  const { loggedIn } = authState
   const { render, route } = props
-
   if (route.loginRequired && !loggedIn) {
     return <Redirect to='/login' />
   }

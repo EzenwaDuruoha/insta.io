@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY --from=common /raw /app/common
 
-COPY ./package.json .
+COPY ./package*.json ./
 
 RUN npm install
 

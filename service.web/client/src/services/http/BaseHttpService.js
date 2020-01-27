@@ -5,15 +5,14 @@ export default class BaseHttpService {
     const opts = {
       baseURL: serviceUrl,
       validateStatus: false,
-      timeout: 1000,
-      headers: {
-        'User-Agent': 'Service.Web'
-      }
+      timeout: 4000,
+      headers: {}
     }
     this.serviceUrl = serviceUrl
     this.request = axios.create(opts)
     this.request.defaults.headers.post['Content-Type'] = 'application/json'
     this.request.defaults.headers.put['Content-Type'] = 'application/json'
+    this.request.defaults.headers.delete['Content-Type'] = 'application/json'
   }
 
   /**

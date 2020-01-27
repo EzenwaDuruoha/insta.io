@@ -95,10 +95,11 @@ services:
       dockerfile: ./docker/dev.Dockerfile
     ports:
       - "8000:80"
-    environment:
-      NODE_ENV: development
+    env_file:
+      - ./env/web.env
     volumes:
       - ./service.web:/app
+      - ./common:/common
       - fe_mod:/app/node_modules
     depends_on:
       - common

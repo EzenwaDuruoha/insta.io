@@ -17,7 +17,7 @@ app.use(useLogger(logger))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(useCors())
+app.use(useCors([], true))
 
 app.use(device.capture({
   botUserAgentDeviceType: 'phone',

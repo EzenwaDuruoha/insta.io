@@ -1,7 +1,9 @@
 const path = require('path')
 const {
   NODE_ENV = 'development',
-  PORT = 80
+  PORT = 80,
+  AUTH_SERVICE = 'http://localhost/auth',
+  MEDIA_SERVICE = 'http://localhost/media'
 } = process.env
 
 process.env.NODE_ENV = NODE_ENV
@@ -18,5 +20,9 @@ module.exports = {
   isDev,
   isProd,
   staticPath: isDev() ? `${appPath}/public` : `${appPath}/build`,
-  templatesPath: `${appPath}/server/src/templates`
+  templatesPath: `${appPath}/server/src/templates`,
+  network: {
+    userServiceUrl: AUTH_SERVICE,
+    mediaServiceUrl: MEDIA_SERVICE
+  }
 }

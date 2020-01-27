@@ -1,12 +1,12 @@
 const cors = require('cors')
 
-module.exports = function (whitelist = [], env = 'development') {
+module.exports = function (whitelist = [], skip = false) {
   const corsOptions = {
     origin: function (origin, callback) {
-      if (whitelist.indexOf(origin) !== -1 || (env !== 'production' && !origin)) {
+      if (whitelist.indexOf(origin) !== -1 || skip) {
         callback(null, true)
       } else {
-        callback({message: 'Request Blocked by CORS'}, false)
+        callback(new Error('Request Blocked by CORS'), false)
       }
     }
   }

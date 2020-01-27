@@ -1,14 +1,13 @@
 const setupReloader = (hooks) => {
-    const { config } = hooks.getFrame()
+    const { config, context } = hooks.getFrame()
     const res = hooks.getResponse()
-    console.log('RELOADER', config.isDev())
     if (!config.isDev()) return
     const extend = {
       core: {},
-      context: {}
+      context: {...context}
     }
     const webpackStats = res.locals.webpackStats.toJson()
-  
+
     extend.core.reader = (filename) => {
       return new Promise((resolve, reject) => {
         res.locals.fs.readFile(filename, (err, buff) => {

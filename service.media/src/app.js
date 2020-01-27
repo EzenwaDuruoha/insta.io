@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 app.use(useLogger(logger))
 app.use(express.urlencoded({extended: false}))
 app.use(express.json({extended:true}))
-app.use(useCors())
+app.use(useCors(['http://localhost:8000']))
 
 app.all('/', (req, res) => res.status(200).json({status: 'ping'}))
 app.use('/api/v1', v1)

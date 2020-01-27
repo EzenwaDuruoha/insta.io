@@ -2,7 +2,6 @@ const {Router} = require('express')
 
 const admin = require('./namespaces/admin')
 const auth = require('./namespaces/auth')
-const docs = require('./namespaces/docs')
 const social = require('./namespaces/social')
 const user = require('./namespaces/user')
 const users = require('./namespaces/users')
@@ -20,7 +19,6 @@ router.use('/admin', admin([
   {namespace: '/social', router: social}
 ]))
 router.use('/auth', auth)
-router.use('/docs', docs)
 router.use('/social', useTokenAuthenticator, social)
 router.use('/user', useTokenAuthenticator, user)
 router.use('/users', useTokenAuthenticator, users)

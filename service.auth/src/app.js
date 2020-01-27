@@ -5,6 +5,7 @@ const logger = require('@utils/logger').getLogger({service: 'Auth.Service'})
 const useLogger = require('@middleware/uselogger')
 const useCors = require('@middleware/usecors')
 const v1 = require('./routes/v1')
+const docs = require('./routes/v1/namespaces/docs')
 
 const app = express()
 const dependencies = []
@@ -23,10 +24,11 @@ app.use((req, res, next) => {
 app.use(useLogger(logger))
 app.use(express.urlencoded({extended: false}))
 app.use(express.json({extended:true}))
-app.use(useCors())
+app.use(useCors(['http://localhost:8000']))
 
 app.all('/', (req, res) => res.status(200).json({status: 'ping'}))
 app.use('/api/v1', v1)
+app.use('/docs', docs)
 
 // Handling 404
 app.use(function (req, res) {

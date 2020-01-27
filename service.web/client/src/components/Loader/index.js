@@ -1,9 +1,10 @@
-import React from 'react';
+import React from 'react'
+import './loader.css'
 
 function Loader() {
   return (
     <div className="Loader">
-      Loading....
+      <div className="spin"></div>
     </div>
   );
 }

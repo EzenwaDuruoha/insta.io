@@ -1,0 +1,62 @@
+.Lander {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .hero {
+    max-width: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .bx {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #fff;
+      border: 1px solid #e6e6e6;
+      border-radius: 1px;
+      margin: 0 0 10px;
+      padding: 10px 0;
+      box-sizing: border-box;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .head {
+      header {
+        font-family: "Billabong";
+        font-weight: 500;
+        font-size: 70px;
+        margin: 22px auto 12px;
+      }
+
+      span {
+        font-weight: 600;
+        line-height: 20px;
+        font-size: 17px;
+        margin: 0 40px 10px;
+        color: #999;
+        text-align: center;
+      }
+    }
+
+    .opt {
+      width: 100%;
+      span {
+        color: #262626;
+        font-size: 14px;
+        margin: 15px;
+        text-align: center;
+      }
+      a {
+        color: #3897f0;
+        text-decoration: none;
+      }
+    }
+  }
+}

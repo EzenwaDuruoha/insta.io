@@ -9,8 +9,10 @@ module.exports = async function (frame) {
     config,
     logger,
     core: {reader = readFile},
-    context: {index = `${config.staticPath}/index.html`, sourceRequest = {}}
+    context
   } = frame
+  const {index = `${config.staticPath}/index.html`, sourceRequest = {}} = context
+
   try {
     const buffer = await reader(index)
     const template = mustache.render(buffer.toString(), {
@@ -20,6 +22,6 @@ module.exports = async function (frame) {
   } catch (error) {
     logger.error(error, {tag: 'CLIENT_GET_ROUTE'})
     const errorPage = await readFile(`${config.templatesPath}/errors/500.html`)
-    return mustache.render(errorPage)
+    return mustache.render(errorPage.toString())
   }
 }
