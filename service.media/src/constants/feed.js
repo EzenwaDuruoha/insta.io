@@ -5,6 +5,7 @@ module.exports.DEFAULT_FEED = {
     content: '00000000-0000-0000-0000-000000000000',
     contentURL: [''],
     username: 'default',
+    skip: true
   },
   timestamp: ''
 }

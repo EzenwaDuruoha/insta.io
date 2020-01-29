@@ -24,8 +24,8 @@ module.exports = async function (req, res, next) {
         message: 'Invalid Authentcation Token'
       })
     }
-
-    const {id, iss, exp} = token
+    console.log(token)
+    const {id, username = '', iss, exp} = token
     const expire = moment((exp * 1000))
 
     if (expire.isBefore()) {
@@ -42,7 +42,7 @@ module.exports = async function (req, res, next) {
       })
     }
 
-    const user = {id}
+    const user = {id, username}
     res.locals.userContext = {
       user,
       token: authorization,

@@ -16,6 +16,10 @@ const PostSchema = new Schema({
       return uuidValidator(id, 4)
     }
   },
+  username: {
+    type: String,
+    default: ''
+  },
   contentURL: [{
     type: String,
     required: true,

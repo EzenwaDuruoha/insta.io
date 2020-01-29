@@ -11,7 +11,7 @@ module.exports = async (frame) => {
   const profile = await userDataLayer.createUserProfile(user)
   const settings = await userDataLayer.createUserSettings(user)
 
-  const token = jwtService.generateToken(privateKey, {id: user.id}, {...jwt, audience: 'Public.Api', subject: 'Client'})
+  const token = jwtService.generateToken(privateKey, {id: user.id, username: user.username}, {...jwt, audience: 'Public.Api', subject: 'Client'})
   const sessionKey = REDIS_SESSION_KEY + user.id
   const userDataKey = USER_DATA_KEY + user.id
   const exp = parseInt(expiresIn) / 1000

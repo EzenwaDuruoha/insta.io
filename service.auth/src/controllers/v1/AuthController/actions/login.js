@@ -7,7 +7,7 @@ module.exports = async (frame) => {
   const {jwt, jwtCerts: {privateKey}, rabbitmq: {exechangeName}} = config
   const {expiresIn} = jwt
 
-  const token = jwtService.generateToken(privateKey, {id: user.id}, {...jwt, audience: 'Public.Api', subject: 'Client'})
+  const token = jwtService.generateToken(privateKey, {id: user.id, username: user.username}, {...jwt, audience: 'Public.Api', subject: 'Client'})
   const sessionKey = REDIS_SESSION_KEY + user.id
   const userDataKey = USER_DATA_KEY + user.id
 

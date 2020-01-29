@@ -22,13 +22,23 @@ export default class BaseHttpService {
    */
   middleware (fn) {
     let response = {
-      status: 'error',
-      data: 'An Internal Error Occured'
+      res : {
+        status: 'error',
+        data: 'An Internal Error Occured'
+      },
+      meta : {
+        status: 500,
+        headers: {}
+      }
     }
     return async (...args) => {
       try {
         const res = await fn(...args)
-        response = res.data
+        response.res = res.data
+        response.meta = {
+          status: res.status,
+          headers: res.headers
+        }
         console.log('HTTP Response', {args, response: response, serviceUrl: this.serviceUrl})
       } catch (error) {
         console.log(error, {tag: `${this.serviceUrl}_http_service`})

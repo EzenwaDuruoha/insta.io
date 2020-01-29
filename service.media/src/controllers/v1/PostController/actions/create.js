@@ -6,6 +6,7 @@ async function postCreate (frame) {
   const extension = CONTENT_TYPES_TO_EXTENSION[data.contentType]
   const postKey = `${user.id}/posts/${uuid()}${extension}`
   data.userId = user.id
+  data.username = user.username
   data.contentURL = [`${cdnHost}/${postContentBucket}/${postKey}`]
 
   const post = await postRepo.create(data)

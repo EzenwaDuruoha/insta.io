@@ -28,6 +28,10 @@ const CommentSchema = new Schema({
       return uuidValidator(id, 4)
     }
   },
+  username: {
+    type: String,
+    default: ''
+  },
   actor: {
     type: String,
     required: true,

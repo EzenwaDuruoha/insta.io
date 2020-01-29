@@ -5,12 +5,36 @@ import { FORM_ERROR } from 'final-form'
 import Input from '../../../components/Input'
 import { authenticate } from '../../../store/reducers/AuthState/actions'
 import { LOAD_AUTH_FAILURE } from '../../../store/constants'
+import { validateEmail } from '../../../helpers/validation'
+import { loginValidator } from '../../../helpers/schemas'
+
+const _validate = (values = {}) => {
+  const errors = {}
+  const fields = ['password', 'username']
+  const results = loginValidator(values)
+  const { error } = results
+  fields.forEach((f) => {
+    if (!values[f]) {
+      errors[f] = 'Invalid Value'
+    }
+    if (error && error.details[0].path.includes(f)) {
+      errors[f] = 'Invalid Value'
+    }
+  })
+  return errors
+}
 
 export default function LoginForm(props) {
   const dispatch = useDispatch()
   const _submit = useCallback(async (req) => {
-    const res = await dispatch(authenticate(req))
-    console.log(res)
+    const _req = { password: req.password }
+    const isEmail = validateEmail(req.username)
+    if (isEmail) {
+      _req.email = req.username
+    } else {
+      _req.username = req.username
+    }
+    const res = await dispatch(authenticate(_req))
     const { type, payload } = res
     if (type === LOAD_AUTH_FAILURE) {
       const err = { [FORM_ERROR]: 'An Error Occurred, try again' }
@@ -31,10 +55,10 @@ export default function LoginForm(props) {
   return (
     <Form
       onSubmit={_submit}
+      validate={_validate}
       subscription={{ submitting: true, pristine: true, submitError: true, invalid: true }}
       render={(formProps) => {
         const { handleSubmit, pristine, invalid, submitting, submitError } = formProps
-        console.log('FORMPROPS: ', formProps)
         return (
           <form className='login-form' onSubmit={handleSubmit}>
             <div className='br'></div>

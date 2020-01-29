@@ -3,7 +3,11 @@ import {Link} from 'react-router-dom'
 import LoginForm from './components/form'
 import './login.scss'
 
-function Login(props) {
+/**
+ *
+ * @param {Object} props
+ */
+function Login(props = {}) {
   return (
     <div className="Login">
       <div className='center'>

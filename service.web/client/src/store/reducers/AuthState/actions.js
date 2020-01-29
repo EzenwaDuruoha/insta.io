@@ -2,7 +2,9 @@ import {
   LOAD_AUTH_FAILURE,
   LOAD_AUTH_REQUEST,
   LOAD_AUTH_SUCCESS,
-} from '../../constants'
+  LOAD_LOGOUT,
+  REDUCER_DEFAULTS
+} from '../../../constants'
 
 export function authenticate (req = {}, action='login') {
   return async (dispatch, getState, { userService }) => {
@@ -10,10 +12,12 @@ export function authenticate (req = {}, action='login') {
     let response = null
     switch (action) {
       case 'login':
-        response = await userService.auth.login(req)
+        let {res} = await userService.auth.login(req)
+        response = res
         break
       case 'register':
-        response = await userService.auth.register(req)
+        let {res: reg} = await userService.auth.register(req)
+        response = reg
         break
       default:
         response = {status: 'error', data: 'Invalid Authentication Operation'}
@@ -46,4 +50,18 @@ export function authenticate (req = {}, action='login') {
       }
     })
   }
+}
+
+export function logout (dispatch) {
+  return dispatch({
+    type: LOAD_LOGOUT,
+    payload: {
+      user: null,
+      profile: null,
+      settings: null,
+      token: null,
+      loggedIn: false,
+      ...REDUCER_DEFAULTS
+    }
+  })
 }

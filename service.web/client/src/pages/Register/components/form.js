@@ -5,12 +5,28 @@ import { FORM_ERROR } from 'final-form'
 import Input from '../../../components/Input'
 import { authenticate } from '../../../store/reducers/AuthState/actions'
 import { LOAD_AUTH_FAILURE } from '../../../store/constants'
+import { registerValidator } from '../../../helpers/schemas'
+
+const _validate = (values = {}) => {
+  const errors = {}
+  const fields = ['password', 'username', 'email']
+  const results = registerValidator(values)
+  const { error } = results
+  fields.forEach((f) => {
+    if (!values[f]) {
+      errors[f] = 'Invalid Value'
+    }
+    if (error && error.details[0].path.includes(f)) {
+      errors[f] = 'Invalid Value'
+    }
+  })
+  return errors
+}
 
 export default function RegisterForm(props) {
   const dispatch = useDispatch()
   const _submit = useCallback(async (req) => {
     const res = await dispatch(authenticate(req, 'register'))
-    console.log(res)
     const { type, payload } = res
     if (type === LOAD_AUTH_FAILURE) {
       const err = { [FORM_ERROR]: 'An Error Occurred, try again' }
@@ -31,6 +47,7 @@ export default function RegisterForm(props) {
   return (
     <Form
       onSubmit={_submit}
+      validate={_validate}
       subscription={{ submitting: true, pristine: true, submitError: true, invalid: true }}
       render={(formProps) => {
         const { handleSubmit, pristine, invalid, submitting, submitError } = formProps

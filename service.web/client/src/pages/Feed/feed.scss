@@ -1,0 +1,61 @@
+.Feed {
+  display: flex;
+  background-color: #fafafa;
+  flex-direction: column;
+  width: 100vw;
+  .feed-body {
+    flex-grow: 1;
+    order: 4;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    align-items: stretch;
+    .feed-con {
+      padding-top: 60px;
+      flex-flow: row nowrap;
+      max-width: 935px;
+      display: flex;
+      flex-grow: 1;
+      margin: 0 auto;
+      position: relative;
+      width: 100%;
+      .feed-stream {
+        float: left;
+        margin-right: 28px;
+        max-width: 614px;
+        width: 100%;
+        align-items: stretch;
+        border: 0 solid #000;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        padding: 0;
+        position: relative;
+      }
+      .sanp-br {
+        height: 0;
+        max-width: 293px;
+        position: absolute;
+        right: 0;
+        width: 100%;
+        display: flex;
+      }
+      .feed-snap {
+        height: 100vh;
+        margin-bottom: 30px;
+        padding: 0;
+        top: 60px;
+        max-width: 293px;
+        position: absolute;
+        right: 0;
+        width: 100%;
+        flex-shrink: 0;
+        margin: 0;
+        display: flex;
+        align-items: stretch;
+      }
+    }
+  }
+}

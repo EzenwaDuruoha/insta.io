@@ -3,6 +3,7 @@ const MQService = require('@services/rabbitmq')
 const JWTService = require('@services/jwt')
 const DatabaseService = require('../database')
 const WorkerDispatcher = require('../services/HTTP/WorkerDispatcher')
+const UserService = require('../services/HTTP/UserService')
 const config = require('../../config')
 const logger = require('@utils/logger').getLogger({service: 'Media.Service'})
 
@@ -11,12 +12,14 @@ const redisService = new RedisService()
 const mqService = new MQService(config.rabbitmq, logger, {tag: 'MQ_SERVICE'})
 const jwtService = new JWTService()
 const worker = new WorkerDispatcher(config.network.workerService)
+const userService = new UserService(config.network.authService)
 
 const services = {
   databaseService,
   jwtService,
   mqService,
   redisService,
+  userService,
   worker
 }
 /**

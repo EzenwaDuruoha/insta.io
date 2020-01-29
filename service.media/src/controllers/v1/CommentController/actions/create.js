@@ -1,6 +1,7 @@
 module.exports = async function (frame) {
   const {context: {user}, dependencies: {postRepo, commentRepo}, data} = frame
   data.userId = user.id
+  data.username = user.username
 
   const {relatedTo, actor} = data
   const callbacks = {
