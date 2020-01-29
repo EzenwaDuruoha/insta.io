@@ -4,7 +4,7 @@ import { Form, Field } from 'react-final-form'
 import { FORM_ERROR } from 'final-form'
 import Input from '../../../components/Input'
 import { authenticate } from '../../../store/reducers/AuthState/actions'
-import { LOAD_AUTH_FAILURE } from '../../../store/constants'
+import { LOAD_AUTH_FAILURE } from '../../../constants'
 import { validateEmail } from '../../../helpers/validation'
 import { loginValidator } from '../../../helpers/schemas'
 

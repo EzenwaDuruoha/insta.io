@@ -1,0 +1,99 @@
+.FeedItem {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 60px;
+  border-radius: 3px;
+  border: 1px solid #dbdbdb;
+  background-color: rgba(var(--cdc, 255, 255, 255), 1);
+  margin-left: -1px;
+  margin-right: -1px;
+  align-items: stretch;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  position: relative;
+
+  .feed-box-head {
+    border-bottom-width: 0.5px;
+    flex-direction: row;
+    height: 60px;
+    padding: 16px;
+    align-items: center;
+    display: flex;
+    border-bottom: 1px solid #efefef;
+    position: relative;
+    box-sizing: border-box;
+    flex-shrink: 0;
+  }
+
+  .feed-box-body {
+    display: flex;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    flex-direction: column;
+    .feed-box-body-inner {
+      touch-action: manipulation;
+      display: flex;
+      box-sizing: border-box;
+      flex-shrink: 0;
+      align-items: stretch;
+      position: relative;
+      .content {
+        background-color: rgba(var(--c90, 239, 239, 239), 1);
+        display: block;
+        width: 100%;
+        .content-body {
+          display: block;
+          overflow: hidden;
+          padding-bottom: 100%;
+        }
+        .c-br {
+          bottom: 0;
+          left: 0;
+          position: absolute;
+          right: 0;
+          top: 0;
+        }
+      }
+    }
+  }
+
+  .feed-box-footer {
+    display: flex;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    flex-direction: column;
+    .fbi {
+      padding-left: 16px;
+      padding-right: 16px;
+      margin-top: 4px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: row;
+      .fr66n {
+        display: inline-block;
+        margin-left: -8px;
+      }
+      ._15y0l {
+        display: inline-block;
+      }
+      .wpO6b {
+        align-items: center;
+        background: 0 0;
+        border: 0;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        padding: 8px;
+      }
+      .wmtNn {
+        margin-left: auto;
+        margin-right: -10px;
+        display: inline-block;
+      }
+    }
+  }
+}
