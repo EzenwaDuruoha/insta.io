@@ -45,7 +45,6 @@ class FeedRepository {
       {
         $project: {
           __v: 0,
-          created_at: 0,
           last_updated: 0,
           likes: 0,
           'tags.description': 0,

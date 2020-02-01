@@ -1,5 +1,5 @@
 import Joi from '@hapi/joi'
-
+console.log('JOI', Joi)
 const loginSchema = Joi.object({
   password: Joi.string()
     .pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})')),

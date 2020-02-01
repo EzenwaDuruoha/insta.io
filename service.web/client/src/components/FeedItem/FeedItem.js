@@ -1,13 +1,17 @@
 import React from 'react'
+import moment from 'moment'
+import { Link } from 'react-router-dom'
 import './feeditem.scss'
 
 function FeedItem(props) {
   const { data } = props
   console.log('FEED-DATA: ', data)
+  const { title = '', likeCount = 0, username = 'unknown', comments = [], userId, created_at } = data
+  const till = moment.duration(moment().utc().diff(created_at))
   return (
     <div className='FeedItem'>
       <header className='feed-box-head'>
-        hey
+        <Link to={`/user/${userId}`}>{username}</Link>
       </header>
       <div className='feed-box-body'>
         <div role='button' className='feed-box-body-inner'>
@@ -34,6 +38,28 @@ function FeedItem(props) {
             </svg>
             </button>
           </span>
+        </section>
+        <section className='fb-sat'>
+          <div className='stat'>
+            {likeCount} {likeCount === 1 ? 'like' : 'likes'}
+          </div>
+        </section>
+        <div className='fb-com'>
+          {title && (<div className='fb-com-title'>
+            <Link className='fb-com-us' to={`/user/${userId}`}>{username}</Link>&nbsp;
+            <span className='fb-com-t'>{title}</span>
+          </div>)}
+        </div>
+        <section className='fb-time'>
+          {Math.trunc(till.asHours())} hours ago
+        </section>
+        <section className='fb-comment'>
+          <div className='fb-comment-inner'>
+            <form className='comment-form' method="POST" onSubmit = {(e) => e.preventDefault()}>
+              <textarea aria-label="Add a comment…" placeholder="Add a comment…" className='comment-in' autoComplete="off" autoCorrect="off"></textarea>
+              <button className='comment-sub' disabled="" type="submit">Post</button>
+            </form>
+          </div>
         </section>
       </div>
     </div>

@@ -63,6 +63,14 @@ export const router = {
       redirectOnLogin: false,
       component: React.lazy(() => import('../pages/Account/Account')),
     },
+    // User route
+    {
+      path: paths.userRoute,
+      exact: true,
+      loginRequired: true,
+      redirectOnLogin: false,
+      component: React.lazy(() => import('../pages/User/User')),
+    },
     // not-found
     {
       path: paths.notFound,
