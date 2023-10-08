@@ -14,6 +14,8 @@ module.exports = async (frame) => {
 
   const {error: tokenError, data: activeToken} = await redisService.get(sessionKey)
 
+  console.log("Super hotfix")
+
   if (!tokenError && activeToken) {
     const {payload: {jti}} = jwtService.decodeToken(activeToken)
     const blacklistKey = REDIS_SESSION_BLACKLIST_KEY + jti
