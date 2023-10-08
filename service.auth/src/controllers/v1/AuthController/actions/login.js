@@ -2,6 +2,7 @@ const {REDIS_SESSION_KEY, REDIS_SESSION_BLACKLIST_KEY, USER_DATA_KEY} = require(
 const {SESSION_INIT} = require('../../../../constants/notification')
 
 module.exports = async (frame) => {
+  console.log('Change')
   const {config, dependencies, relatedResources: {user}} = frame
   const {redisService, mqService, jwtService} = dependencies
   const {jwt, jwtCerts: {privateKey}, rabbitmq: {exechangeName}} = config
