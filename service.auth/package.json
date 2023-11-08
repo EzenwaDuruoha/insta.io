@@ -43,7 +43,7 @@
       "moment": "^2.24.0",
       "pg": "^7.12.1",
       "reflect-metadata": "^0.1.10",
-      "swagger-ui-express": "^4.1.2",
+      "swagger-ui-express": "^4.2.0",
       "typeorm": "0.2.20",
       "uuid": "^3.3.3",
       "uuid-validate": "0.0.3",
