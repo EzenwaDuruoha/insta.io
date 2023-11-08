@@ -14,7 +14,7 @@
     "@middleware/uselogger": "file:../common/@middleware/useLogger",
     "@utils/apibuilder": "file:../common/@utils/apibuilder",
     "@utils/logger": "file:../common/@utils/logger",
-    "axios": "^0.19.0",
+    "axios": "^0.20.0",
     "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
     "express-device": "^0.4.2",
