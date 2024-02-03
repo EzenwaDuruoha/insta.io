@@ -9,7 +9,7 @@
     "test": "node scripts/test.js"
   },
   "dependencies": {
-    "@hapi/joi": "^17.1.0",
+    "@hapi/joi": "^17.1.1",
     "@middleware/usecors": "file:../common/@middleware/useCors",
     "@middleware/uselogger": "file:../common/@middleware/useLogger",
     "@utils/apibuilder": "file:../common/@utils/apibuilder",
