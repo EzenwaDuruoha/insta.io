@@ -30,10 +30,10 @@
       "@utils/logger": "file:../common/@utils/logger",
       "aws-sdk": "^2.596.0",
       "axios": "^0.19.0",
-      "express": "^4.17.1",
+      "express": "^4.21.2",
       "express-validator": "^6.3.0",
       "moment": "^2.24.0",
-      "mongoose": "^5.8.3",
+      "mongoose": "^8.8.3",
       "uuid": "^3.3.3",
       "uuid-validate": "0.0.3",
       "validator": "^12.1.0"
